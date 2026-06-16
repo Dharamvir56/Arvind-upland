@@ -1,0 +1,2871 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Arvind Uplands One | Luxury Villas, Golf &amp; Wellness</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;family=Montserrat:wght@200..800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Leaflet Map library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#1a1c1a",
+                        "secondary": "#755a24",
+                        "on-secondary-container": "#795f28",
+                        "on-tertiary-container": "#e0e1e0",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e2e3df",
+                        "surface-bright": "#faf9f6",
+                        "outline-variant": "#c2c8c0",
+                        "background": "#faf9f6",
+                        "error": "#ba1a1a",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#626464",
+                        "inverse-on-surface": "#f1f1ed",
+                        "on-primary-container": "#c6eacb",
+                        "inverse-primary": "#accfb1",
+                        "tertiary-fixed": "#e1e3e2",
+                        "on-primary-fixed": "#02210e",
+                        "tertiary": "#4a4c4c",
+                        "on-surface": "#1a1c1a",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#2e4d36",
+                        "surface": "#faf9f6",
+                        "secondary-fixed": "#ffdea4",
+                        "primary-container": "#4b6b52",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#261900",
+                        "secondary-container": "#ffdb99",
+                        "surface-container": "#eeeeea",
+                        "outline": "#727972",
+                        "secondary-fixed-dim": "#e5c281",
+                        "on-secondary-fixed-variant": "#5b430e",
+                        "surface-tint": "#46664d",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#accfb1",
+                        "surface-container-high": "#e8e8e5",
+                        "inverse-surface": "#2f312f",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-low": "#f4f4f0",
+                        "on-tertiary-fixed": "#191c1c",
+                        "surface-variant": "#e2e3df",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#424842",
+                        "tertiary-fixed-dim": "#c5c7c6",
+                        "primary": "#34533b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "margin-desktop": "80px",
+                        "section-gap": "120px",
+                        "margin-mobile": "24px",
+                        "gutter": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["'Cormorant Garamond'", "serif"],
+                        "headline-md": ["'Cormorant Garamond'", "serif"],
+                        "display-lg-mobile": ["'Cormorant Garamond'", "serif"],
+                        "body-lg": ["'Montserrat'", "sans-serif"],
+                        "body-md": ["'Montserrat'", "sans-serif"],
+                        "label-caps": ["'Montserrat'", "sans-serif"],
+                        "display-lg": ["'Cormorant Garamond'", "serif"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["48px", { "lineHeight": "56px", "fontWeight": "500" }],
+                        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "500" }],
+                        "display-lg-mobile": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "32px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "700" }],
+                        "display-lg": ["80px", { "lineHeight": "90px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom scrollbar styling */
+        .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(197, 168, 128, 0.25) rgba(255, 255, 255, 0.01);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 2px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(197, 168, 128, 0.25);
+            border-radius: 2px;
+            transition: background 0.3s;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(197, 168, 128, 0.6);
+        }
+
+        /* Leaflet custom styling */
+        .leaflet-container {
+            background-color: #121312 !important;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        /* High-contrast inverted dark map theme filter for road detailing */
+        #map.map-luxury .leaflet-tile-container {
+            filter: invert(88%) hue-rotate(165deg) brightness(1.12) contrast(1.15) sepia(50%) saturate(1.5);
+            transition: filter 0.8s ease;
+        }
+
+        #map.map-luxury:hover .leaflet-tile-container {
+            filter: invert(88%) hue-rotate(165deg) brightness(1.12) contrast(1.15) sepia(50%) saturate(1.5);
+        }
+
+        .luxury-tooltip {
+            background: #161716 !important;
+            border: 1px solid rgba(197, 168, 128, 0.4) !important;
+            color: #faf9f6 !important;
+            font-family: 'Manrope', sans-serif !important;
+            font-size: 11px !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.08em !important;
+            text-transform: uppercase !important;
+            border-radius: 6px !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6) !important;
+            padding: 5px 10px !important;
+        }
+
+        .luxury-tooltip::before {
+            border-top-color: #755a24 !important;
+            border-bottom-color: #755a24 !important;
+        }
+
+        /* Custom Scrollbar hide helper */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Luxury Category buttons */
+        .category-btn {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.55);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .category-btn:hover {
+            border-color: rgba(197, 168, 128, 0.4);
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-1px);
+        }
+
+        .category-btn.active {
+            border-color: #755a24;
+            background-color: #755a24;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(117, 90, 24, 0.25);
+        }
+
+        /* Map Style Switcher buttons */
+        .map-style-btn {
+            color: rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .map-style-btn:hover {
+            color: #ffffff;
+        }
+
+        .map-style-btn.active {
+            background-color: #755a24;
+            color: #ffffff;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(117, 90, 24, 0.35);
+        }
+
+        /* Amenities Section Custom Styling */
+        #amenities-grid {
+            max-height: 304px;
+            /* Mobile collapsed: 2 rows of h-32 (256px) + gap-gutter (32px) + 16px padding = 304px */
+            transition: max-height 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+        }
+
+        @media (min-width: 768px) {
+            #amenities-grid {
+                max-height: 336px;
+                /* Tablet collapsed: 2 rows of h-36 (288px) + gap-gutter (32px) + 16px padding = 336px */
+            }
+        }
+
+        @media (min-width: 1280px) {
+            #amenities-grid {
+                max-height: 160px;
+                /* Desktop collapsed: 1 row of h-36 (144px) + 16px padding = 160px */
+            }
+        }
+
+        #amenities-grid.expanded .amenity-card-tier-2,
+        #amenities-grid.expanded .amenity-card-tier-3 {
+            display: flex !important;
+        }
+
+        @keyframes fadeUpStagger {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .amenity-card-animate {
+            animation: fadeUpStagger 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+    <!-- Top Navigation -->
+    <header
+        class="fixed top-0 w-full z-50 bg-[#121312]/80 backdrop-blur-xl border-b border-white/[0.08] shadow-lg h-20 flex justify-between items-center px-margin-mobile md:px-margin-desktop transition-all duration-300">
+        <a href="#" class="flex items-center">
+            <img src="./arvind-logo.png" alt="Arvind Logo" class="h-12 w-auto object-contain">
+        </a>
+        <nav class="hidden lg:flex gap-6 items-center">
+            <a class="font-label-caps text-[11px] uppercase font-semibold tracking-wider text-white/70 hover:text-[#c5a880] transition-colors duration-300"
+                href="#exclusive-announcement-section">Exclusive Announcement</a>
+            <a class="font-label-caps text-[11px] uppercase font-semibold tracking-wider text-white/70 hover:text-[#c5a880] transition-colors duration-300"
+                href="#usps-grid">USPs</a>
+            <a class="font-label-caps text-[11px] uppercase font-semibold tracking-wider text-white/70 hover:text-[#c5a880] transition-colors duration-300"
+                href="#amenities-section">Amenities</a>
+            <a class="font-label-caps text-[11px] uppercase font-semibold tracking-wider text-white/70 hover:text-[#c5a880] transition-colors duration-300"
+                href="#gallery-section">Gallery</a>
+            <a class="font-label-caps text-[11px] uppercase font-semibold tracking-wider text-white/70 hover:text-[#c5a880] transition-colors duration-300"
+                href="#why-uplands-section">Why Arvind Upland</a>
+            <a class="font-label-caps text-[11px] uppercase font-semibold tracking-wider text-white/70 hover:text-[#c5a880] transition-colors duration-300"
+                href="#location-section">Location</a>
+        </nav>
+        <div class="flex items-center gap-4">
+            <a href="#enquiry"
+                class="hidden lg:inline-block bg-[#755a24] text-[#faf9f6] px-8 py-3 font-label-caps text-label-caps hover:bg-[#5b430e] transition-all duration-300 transform active:scale-95">Book
+                Now</a>
+            <!-- Hamburger Button (visible on mobile, hidden on desktop) -->
+            <button id="mobile-menu-btn" onclick="toggleMobileMenu()"
+                class="lg:hidden text-white hover:text-[#c5a880] focus:outline-none z-50 p-2 flex items-center justify-center">
+                <span class="material-symbols-outlined text-3xl" id="menu-icon">menu</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Slide-in Menu Overlay -->
+    <div id="mobile-menu-overlay"
+        class="fixed inset-0 bg-black/60 backdrop-blur-md z-[45] opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden">
+    </div>
+
+    <div id="mobile-menu"
+        class="fixed top-0 right-0 h-full w-[280px] bg-[#121312] border-l border-white/[0.08] z-[48] transform translate-x-full transition-transform duration-300 ease-out shadow-2xl flex flex-col pt-24 px-8 pb-10 lg:hidden">
+        <nav class="flex flex-col gap-6">
+            <a class="mobile-nav-link font-label-caps text-[11px] uppercase font-semibold tracking-wider text-white/70 hover:text-[#c5a880] transition-colors duration-300 py-2 border-b border-white/[0.04]"
+                href="#exclusive-announcement-section" onclick="closeMobileMenu()">Exclusive Announcement</a>
+            <a class="mobile-nav-link font-label-caps text-[11px] uppercase font-semibold tracking-wider text-white/70 hover:text-[#c5a880] transition-colors duration-300 py-2 border-b border-white/[0.04]"
+                href="#why-uplands-section" onclick="closeMobileMenu()">Why Arvind Upland</a>
+            <a class="mobile-nav-link font-label-caps text-[11px] uppercase font-semibold tracking-wider text-white/70 hover:text-[#c5a880] transition-colors duration-300 py-2 border-b border-white/[0.04]"
+                href="#amenities-section" onclick="closeMobileMenu()">Amenities</a>
+            <a class="mobile-nav-link font-label-caps text-[11px] uppercase font-semibold tracking-wider text-white/70 hover:text-[#c5a880] transition-colors duration-300 py-2 border-b border-white/[0.04]"
+                href="#gallery-section" onclick="closeMobileMenu()">Gallery</a>
+            <a class="mobile-nav-link font-label-caps text-[11px] uppercase font-semibold tracking-wider text-white/70 hover:text-[#c5a880] transition-colors duration-300 py-2 border-b border-white/[0.04]"
+                href="#usps-grid" onclick="closeMobileMenu()">USPs</a>
+            <a class="mobile-nav-link font-label-caps text-[11px] uppercase font-semibold tracking-wider text-white/70 hover:text-[#c5a880] transition-colors duration-300 py-2 border-b border-white/[0.04]"
+                href="#location-section" onclick="closeMobileMenu()">Location</a>
+        </nav>
+        <div class="mt-auto">
+            <a href="#enquiry" onclick="closeMobileMenu()"
+                class="block text-center bg-[#755a24] text-[#faf9f6] py-4 rounded font-label-caps text-label-caps hover:bg-[#5b430e] transition-all duration-300 shadow-md">Book
+                Now</a>
+        </div>
+    </div>
+    <!-- Section 1: Hero -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <video autoplay loop muted playsinline class="w-full h-full object-cover">
+                <source src="./video.mp4" type="video/mp4" />
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60"></div>
+        </div>
+        <div class="relative z-10 text-center px-margin-mobile max-w-4xl text-white reveal pt-20 pb-16 md:py-0">
+            <h1
+                class="font-display-lg-mobile md:font-display-lg text-3xl sm:text-display-lg-mobile md:text-display-lg mb-6 sm:mb-8 font-bold leading-tight">
+                Live The Uplands Life</h1>
+            <p class="font-headline-md text-lg sm:text-headline-md mb-4 sm:mb-6 opacity-90">Luxury Villas Amidst Nature,
+                Golf &amp;
+                Wellness</p>
+            <p class="font-body-lg text-sm sm:text-body-lg mb-12 sm:mb-16 max-w-2xl mx-auto opacity-80">Experience an
+                extraordinary
+                lifestyle crafted for the global elite, where architectural precision meets the serene whispers of a
+                lush forest canopy.</p>
+            <div class="flex justify-center mt-4 sm:mt-6">
+                <a href="./brochure.pdf" download="brochure.pdf"
+                    class="inline-block bg-primary text-on-primary px-8 py-4 sm:px-10 sm:py-5 font-label-caps text-[10px] sm:text-label-caps tracking-widest hover:bg-primary-container transition-all duration-300 shadow-lg">DOWNLOAD
+                    BROCHURE</a>
+            </div>
+        </div>
+
+        <!-- Fact Sheet (Bottom Left) -->
+        <div
+            class="absolute bottom-0 left-0 w-full lg:w-auto bg-white z-20 py-4 lg:py-6 px-6 lg:px-12 flex flex-row lg:flex-row justify-around lg:justify-start items-center shadow-2xl">
+            <!-- Item 1 -->
+            <div
+                class="flex flex-col lg:flex-row lg:items-center py-1 lg:py-0 pr-2 lg:pr-10 lg:border-r-2 border-[#d97736] lg:h-8">
+                <span class="font-serif text-[#34533b] font-bold text-sm lg:text-2xl lg:mr-3 leading-none">Arvind
+                    Uplands</span>
+                <span
+                    class="text-[9px] lg:text-sm text-on-surface-variant font-label-caps tracking-wider leading-none mt-1 lg:mt-0">NASMED,
+                    AHMEDABAD</span>
+            </div>
+            <!-- Item 2 -->
+            <div
+                class="flex flex-col lg:flex-row lg:items-center py-1 lg:py-0 px-2 lg:px-10 lg:border-r-2 border-[#d97736] lg:h-8 border-l lg:border-l-0 border-black/10">
+                <span class="text-[9px] lg:text-sm text-on-surface-variant lg:mr-2 leading-none">Status:</span>
+                <span
+                    class="text-[10px] lg:text-sm text-[#34533b] font-semibold leading-none mt-1 lg:mt-0">Ongoing</span>
+            </div>
+            <!-- Item 3 -->
+            <div
+                class="flex flex-col lg:flex-row lg:items-center py-1 lg:py-0 pl-2 lg:pl-10 border-l lg:border-l-0 border-black/10">
+                <span class="text-[9px] lg:text-sm text-on-surface-variant lg:mr-2 leading-none">Starting from -</span>
+                <span
+                    class="text-[10px] lg:text-sm text-[#34533b] font-semibold leading-none mt-1 lg:mt-0">4.45Cr</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 1.5: Exclusive Announcement -->
+    <section id="exclusive-announcement-section"
+        class="bg-surface-container-low py-24 px-margin-mobile md:px-margin-desktop overflow-hidden reveal">
+        <div class="max-w-container-max mx-auto flex flex-col lg:flex-row items-center gap-16 lg:gap-20">
+            <!-- Left Content -->
+            <div class="w-full lg:w-1/2 flex flex-col">
+                <span class="font-label-caps tracking-[0.15em] text-secondary text-[11px] font-bold mb-4">EXCLUSIVE
+                    ANNOUNCEMENT</span>
+                <h2 class="font-serif text-4xl md:text-5xl lg:text-[54px] text-primary leading-[1.15] mb-5">New Limited
+                    Inventory<br>Opening Soon</h2>
+                <h3 class="font-serif text-2xl md:text-[28px] text-secondary mb-6 leading-snug">Presenting 23 Exclusive
+                    Villas near<br>the Main Circle</h3>
+
+                <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-10 max-w-lg">
+                    A rare opportunity to own a premium villa in a prime location with limited availability. These
+                    residences are designed for those who seek the pinnacle of privacy and prestige.
+                </p>
+
+                <div class="border-t border-secondary/20 pt-6 mb-8">
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="flex flex-col h-full">
+                            <span
+                                class="block text-secondary text-[10px] font-bold tracking-widest mb-2 font-label-caps">PLOT
+                                AREA</span>
+                            <div
+                                class="text-primary font-sans font-medium text-3xl md:text-4xl flex items-baseline flex-wrap gap-x-1 mt-auto">
+                                640
+                                <span
+                                    class="text-[11px] sm:text-[13px] font-sans font-normal text-on-surface-variant whitespace-nowrap">Sq. Yds.</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col h-full">
+                            <span
+                                class="block text-secondary text-[10px] font-bold tracking-widest mb-2 font-label-caps">CARPET
+                                AREA</span>
+                            <div
+                                class="text-primary font-sans font-medium text-3xl md:text-4xl flex items-baseline flex-wrap gap-x-1 mt-auto">
+                                448
+                                <span
+                                    class="text-[11px] sm:text-[13px] font-sans font-normal text-on-surface-variant whitespace-nowrap">Sq. Yds.</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col h-full">
+                            <span
+                                class="block text-secondary text-[10px] font-bold tracking-widest mb-2 font-label-caps">CONSTRUCTION</span>
+                            <div
+                                class="text-primary font-sans font-medium text-3xl md:text-4xl flex items-baseline flex-wrap gap-x-1 mt-auto">
+                                223
+                                <span
+                                    class="text-[11px] sm:text-[13px] font-sans font-normal text-on-surface-variant whitespace-nowrap">Sq. Yds.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-secondary/20 pt-8">
+                    <a href="#enquiry"
+                        class="inline-block bg-secondary text-white font-label-caps text-[11px] tracking-[0.2em] font-bold px-10 py-5 hover:bg-primary transition-colors duration-300 w-fit">
+                        REQUEST EARLY ACCESS
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Image -->
+            <div class="w-full lg:w-1/2 relative mt-10 lg:mt-0">
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-secondary/20">
+                    <img src="Exclusive.png" alt="Exclusive Luxury Villa Interior"
+                        class="w-full h-auto object-cover min-h-[450px]">
+                </div>
+                <!-- Floating Box -->
+                <div
+                    class="absolute -bottom-8 -right-4 md:-bottom-10 md:-right-10 bg-surface-container-low/90 backdrop-blur-xl border border-secondary/30 p-8 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.5)] flex flex-col items-center justify-center min-w-[140px] z-10">
+                    <span class="text-secondary font-sans font-medium text-5xl mb-2 drop-shadow-md">23</span>
+                    <span
+                        class="text-on-surface-variant text-[11px] font-bold tracking-widest font-label-caps drop-shadow-md">UNITS
+                        ONLY</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Section 2: Lifestyle Experience -->
+    <section id="usps-grid" class="py-section-gap px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+        <div class="text-center mb-20 reveal">
+            <span class="font-label-caps text-label-caps text-secondary block mb-4">THE CURATED LIFE</span>
+            <h2 class="text-3xl md:text-4xl lg:text-headline-lg text-primary font-serif">A Life Designed Around
+                Wellbeing</h2>
+        </div>
+        <div
+            class="flex overflow-x-auto snap-x snap-mandatory gap-6 no-scrollbar pb-6 md:grid md:grid-cols-3 lg:grid-cols-5 md:gap-gutter md:pb-0">
+            <!-- Cards with Glassmorphism Hover -->
+            <div
+                class="group relative overflow-hidden h-[400px] bg-surface-container-low transition-all duration-500 hover:-translate-y-2 reveal snap-start shrink-0 w-[80vw] sm:w-[45vw] md:w-auto">
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                    data-alt="A tranquil, misty forest at sunrise with soft golden light filtering through dense green leaves and tall trees, evoking a sense of deep nature living and serenity."
+                    style="background-image: url('./Tab1.jpg')">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+                <div
+                    class="absolute bottom-0 left-0 p-8 w-full transition-all duration-500 group-hover:bg-white/10 group-hover:backdrop-blur-md">
+                    <span class="material-symbols-outlined text-white mb-4">park</span>
+                    <h3 class="font-headline-md text-headline-md text-white">Nature Living</h3>
+                </div>
+            </div>
+            <div class="group relative overflow-hidden h-[400px] bg-surface-container-low transition-all duration-500 hover:-translate-y-2 reveal snap-start shrink-0 w-[80vw] sm:w-[45vw] md:w-auto"
+                style="transition-delay: 100ms;">
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                    data-alt="A pristine, professionally manicured golf course green with deep green grass and sand bunkers under a clear blue sky, representing an exclusive golf lifestyle for the elite."
+                    style="background-image: url('./Tab2.jpg')">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+                <div
+                    class="absolute bottom-0 left-0 p-8 w-full transition-all duration-500 group-hover:bg-white/10 group-hover:backdrop-blur-md">
+                    <span class="material-symbols-outlined text-white mb-4">golf_course</span>
+                    <h3 class="font-headline-md text-headline-md text-white">Golf Lifestyle</h3>
+                </div>
+            </div>
+            <div class="group relative overflow-hidden h-[400px] bg-surface-container-low transition-all duration-500 hover:-translate-y-2 reveal snap-start shrink-0 w-[80vw] sm:w-[45vw] md:w-auto"
+                style="transition-delay: 200ms;">
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                    data-alt="A minimalist, high-end yoga studio with warm wooden floors and large windows overlooking a lush garden, perfect for a wellness and fitness experience in a quiet luxury setting."
+                    style="background-image: url('./Tab3.jpg')">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+                <div
+                    class="absolute bottom-0 left-0 p-8 w-full transition-all duration-500 group-hover:bg-white/10 group-hover:backdrop-blur-md">
+                    <span class="material-symbols-outlined text-white mb-4">self_improvement</span>
+                    <h3 class="font-headline-md text-headline-md text-white">Wellness</h3>
+                </div>
+            </div>
+            <div class="group relative overflow-hidden h-[400px] bg-surface-container-low transition-all duration-500 hover:-translate-y-2 reveal snap-start shrink-0 w-[80vw] sm:w-[45vw] md:w-auto"
+                style="transition-delay: 300ms;">
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                    data-alt="A warm and inviting outdoor family dinner area on a wooden deck surrounded by trees, with soft lantern lighting creating a cozy atmosphere for luxury family experiences."
+                    style="background-image: url('./Tab4.jpg')">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+                <div
+                    class="absolute bottom-0 left-0 p-8 w-full transition-all duration-500 group-hover:bg-white/10 group-hover:backdrop-blur-md">
+                    <span class="material-symbols-outlined text-white mb-4">family_restroom</span>
+                    <h3 class="font-headline-md text-headline-md text-white">Family</h3>
+                </div>
+            </div>
+            <div class="group relative overflow-hidden h-[400px] bg-surface-container-low transition-all duration-500 hover:-translate-y-2 reveal snap-start shrink-0 w-[80vw] sm:w-[45vw] md:w-auto"
+                style="transition-delay: 400ms;">
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                    data-alt="A sophisticated, luxury club lounge with velvet seating, marble surfaces, and a subtle glowing bar, epitomizing the exclusive club living at a high-end resort."
+                    style="background-image: url('./Tab5.jpg')">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+                <div
+                    class="absolute bottom-0 left-0 p-8 w-full transition-all duration-500 group-hover:bg-white/10 group-hover:backdrop-blur-md">
+                    <span class="material-symbols-outlined text-white mb-4">nightlife</span>
+                    <h3 class="font-headline-md text-headline-md text-white">Club Living</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Section 3: Live Amidst Nature -->
+    <!-- <section class="flex flex-col lg:flex-row bg-surface-container-low reveal">
+        <div class="w-full lg:w-1/2 h-[600px] lg:h-auto overflow-hidden">
+            <img alt="Dense green forest" class="w-full h-full object-cover"
+                data-alt="An immersive, panoramic view of a lush, ancient forest with dappled sunlight breaking through thick green canopies and misty air, creating a serene, architectural atmosphere."
+                src="./descriptionimage.jpg" />
+        </div>
+        <div class="w-full lg:w-1/2 p-margin-mobile md:p-section-gap flex flex-col justify-center">
+            <span class="font-label-caps text-label-caps text-secondary mb-4">THE ECOSYSTEM</span>
+            <h2 class="font-headline-lg text-headline-lg text-primary mb-8">Live Amidst Nature's Masterpiece</h2>
+            <p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-xl">"Experience elevated living at
+                Uplands by Arvind SmartSpaces, a 135-acre luxury township featuring premium villas, lush green
+                landscapes, world-class amenities, and a serene environment designed for an exclusive lifestyle"</p>
+            <div
+                class="flex flex-col md:flex-row items-start md:items-center justify-between border-y border-secondary/20 py-6 mt-8 gap-6 md:gap-0">
+                <div class="w-full md:w-auto md:flex-1 md:pr-4 md:border-r border-secondary/40">
+                    <span class="font-headline-sm text-primary font-bold mr-1">Arvind Uplands</span>
+                    <span class="font-label-caps text-label-caps text-on-surface-variant">NASMED, AHMEDABAD</span>
+                </div>
+                <div class="w-full md:w-auto md:flex-1 md:px-4 md:border-r border-secondary/40">
+                    <span class="font-body-md text-on-surface-variant">Status : </span>
+                    <span class="font-headline-sm text-primary">Ongoing</span>
+                </div>
+                <div class="w-full md:w-auto md:flex-1 md:px-4 md:border-r border-secondary/40">
+                    <span class="font-body-md text-on-surface-variant">Total Area : </span>
+                    <span class="font-headline-sm text-primary">135 Acres</span>
+                </div>
+                <div class="w-full md:w-auto md:flex-1 md:pl-4">
+                    <span class="font-body-md text-on-surface-variant">Starting Price : </span>
+                    <span class="font-headline-sm text-primary">₹ 8.99Cr+</span>
+                </div>
+            </div>
+        </div>
+    </section>-->
+    <!-- Section 4: Golf-Course Lifestyle -->
+    <!--  <section class="relative h-[80vh] flex items-center reveal">
+        <div class="absolute inset-0">
+            <img alt="Golf Course Greens" class="w-full h-full object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZP_d2GkABptdfAvwBzWIzoe08k3gOudvJD42ZOtchgGDlfCoK6jmZuD18usd9KvbT3Rik8ecpRjxcxUAnyrBsqTmDm7oeNusHXA5qykA47W9HBRopEt1jSFxNRQZYgBbzP2413O_BbnUv8IvBDP2q7jJWD-Rj3PhBGyRZE1-O5CmsNXrwixk59a5l4Ya7iSdX8lfUBMLvievtuVypb5uGjHCvMCD6zM6Rl8cT5uYBDDADHUHPwzDuKB7jEcUQJwSImgqcHnrXAaYF" />
+            <div class="absolute inset-0 bg-primary/20"></div>
+        </div>
+        <div class="relative z-10 px-margin-mobile md:px-margin-desktop w-full">
+            <div class="max-w-xl bg-white/10 backdrop-blur-xl p-12 border border-white/20 text-white shadow-2xl">
+                <span class="font-label-caps text-label-caps text-secondary-fixed mb-4 block">THE PRESTIGE</span>
+                <h2 class="font-headline-lg text-headline-lg mb-6">Wake Up To Greens</h2>
+                <p class="font-body-lg text-body-lg mb-8 opacity-90">An signature golf course at your doorstep. Refined
+                    leisure for those who appreciate the strategic elegance of the game, paired with breathtaking views
+                    from every villa window.</p>
+                <button
+                    class="bg-secondary text-white px-8 py-4 font-label-caps text-label-caps hover:bg-on-secondary-container transition-all">EXPLORE
+                    GOLF AMENITIES</button>
+            </div>
+        </div>
+    </section>-->
+    <!-- Section 5: Exquisite Amenities Showcase -->
+    <section id="amenities-section"
+        class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface-container-low reveal border-y border-outline-variant/10">
+        <div class="max-w-4xl mx-auto text-center mb-16 px-4">
+            <span
+                class="font-label-caps text-[11px] md:text-[13px] uppercase tracking-[0.25em] text-secondary mb-6 block font-bold">
+                Extraordinary Amenities. Effortless Living.
+            </span>
+            <h2 class="font-headline-lg text-4xl md:text-5xl lg:text-[56px] text-primary mb-8 font-serif leading-tight">
+                A collection of spaces and experiences crafted to enrich every moment of life.
+            </h2>
+            <p class="font-body-lg text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+                Discover a world of luxury, wellness, and sport designed to elevate your daily living into an
+                extraordinary resort-like experience.
+            </p>
+        </div>
+
+        <!-- Amenities Grid: 6 columns on desktop, 3 on tablet, 2 on mobile -->
+        <div id="amenities-grid"
+            class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-gutter overflow-hidden p-2 -m-2">
+            <!-- Card 1: Golf Course (Always visible) -->
+            <div
+                class="amenity-card flex flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">sports_golf</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Golf
+                    Course</span>
+            </div>
+
+            <!-- Card 2: Lakes & Waterbodies (Always visible) -->
+            <div
+                class="amenity-card flex flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">waves</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Lakes
+                    & Waterbodies</span>
+            </div>
+
+            <!-- Card 3: Hotel Suites (Always visible) -->
+            <div
+                class="amenity-card flex flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">hotel</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Hotel
+                    Suites</span>
+            </div>
+
+            <!-- Card 4: Meditation Haven (Always visible) -->
+            <div
+                class="amenity-card flex flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">self_improvement</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Meditation
+                    Haven</span>
+            </div>
+
+            <!-- Card 5: Café & Restaurant (Visible on Tablet/Desktop initially, hidden on Mobile) -->
+            <div
+                class="amenity-card amenity-card-tier-2 hidden md:flex flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">restaurant</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Café
+                    & Restaurant</span>
+            </div>
+
+            <!-- Card 6: Adventure Park (Visible on Tablet/Desktop initially, hidden on Mobile) -->
+            <div
+                class="amenity-card amenity-card-tier-2 hidden md:flex flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">rocket</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Adventure
+                    Park</span>
+            </div>
+
+            <!-- Card 7: Lawn Tennis (Hidden on all screens initially) -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">sports_tennis</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Lawn
+                    Tennis</span>
+            </div>
+
+            <!-- Card 8: Banquet Hall (Hidden on all screens initially) -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">celebration</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Banquet
+                    Hall</span>
+            </div>
+
+            <!-- Card 9: Club Car Pick-up (Hidden on all screens initially) -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">electric_car</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Club
+                    Car Pick-up</span>
+            </div>
+
+            <!-- Card 10: Party Lawn -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">deck</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Party
+                    Lawn</span>
+            </div>
+
+            <!-- Card 11: Discotheque -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">music_note</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Discotheque</span>
+            </div>
+
+            <!-- Card 12: Private Theatre -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">movie</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Private
+                    Theatre</span>
+            </div>
+
+            <!-- Card 13: Art Installations -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">palette</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Art
+                    Installations</span>
+            </div>
+
+            <!-- Card 14: Zen Café -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">coffee</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Zen
+                    Café</span>
+            </div>
+
+            <!-- Card 15: Natural Surrounds -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">forest</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Natural
+                    Surrounds</span>
+            </div>
+
+            <!-- Card 16: Character Park -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">mood</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Character
+                    Park</span>
+            </div>
+
+            <!-- Card 17: Amphitheatre -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">theater_comedy</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Amphitheatre</span>
+            </div>
+
+            <!-- Card 18: Skating Rink -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">roller_skating</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Skating
+                    Rink</span>
+            </div>
+
+            <!-- Card 19: Souvenir & Food -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">shopping_bag</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Souvenir
+                    & Food</span>
+            </div>
+
+            <!-- Card 20: Library -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">menu_book</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Library</span>
+            </div>
+
+            <!-- Card 21: Kids' Club -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">groups</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Kids'
+                    Club</span>
+            </div>
+
+            <!-- Card 22: Butterfly Garden -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">emoji_nature</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Butterfly
+                    Garden</span>
+            </div>
+
+            <!-- Card 23: Promenades -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">directions_walk</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Promenades</span>
+            </div>
+
+            <!-- Card 24: Landscaped Gardens -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">yard</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Landscaped
+                    Gardens</span>
+            </div>
+
+            <!-- Card 25: Children's Parks -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">child_care</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Children's
+                    Parks</span>
+            </div>
+
+            <!-- Card 26: Golf Greens -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">flag</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Golf
+                    Greens</span>
+            </div>
+
+            <!-- Card 27: Table Tennis -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">table_restaurant</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Table
+                    Tennis</span>
+            </div>
+
+            <!-- Card 28: Squash -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">sports_kabaddi</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Squash</span>
+            </div>
+
+            <!-- Card 29: Billiards -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">lens</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Billiards</span>
+            </div>
+
+            <!-- Card 30: Badminton -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">badminton</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Badminton</span>
+            </div>
+
+            <!-- Card 31: Basketball -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">sports_basketball</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Basketball</span>
+            </div>
+
+            <!-- Card 32: Volleyball -->
+            <div
+                class="amenity-card amenity-card-tier-3 hidden flex-col items-center justify-center p-6 bg-white border border-outline-variant/40 rounded-xl hover:-translate-y-1 hover:border-secondary hover:shadow-[0_12px_24px_rgba(117,90,36,0.05)] transition-all duration-300 group text-center h-32 md:h-36">
+                <div
+                    class="w-12 h-12 rounded-full bg-secondary-container/5 border border-secondary/10 flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:border-secondary transition-all duration-300">
+                    <span
+                        class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-300">sports_volleyball</span>
+                </div>
+                <span
+                    class="font-label-caps text-[10px] md:text-xs tracking-wider text-primary font-semibold transition-colors duration-300 group-hover:text-secondary uppercase">Volleyball</span>
+            </div>
+        </div>
+
+        <!-- Toggle Button Container -->
+        <div class="flex justify-center mt-16">
+            <button id="toggle-amenities-btn" onclick="toggleAmenities()"
+                class="group px-8 py-4 bg-transparent border-2 border-secondary text-secondary font-label-caps text-label-caps tracking-widest hover:bg-secondary hover:text-white hover:shadow-lg transition-all duration-300 rounded-full flex items-center gap-3">
+                <span>VIEW ALL AMENITIES</span>
+                <span id="toggle-amenities-icon"
+                    class="material-symbols-outlined transform group-hover:translate-y-1 transition-transform duration-300">keyboard_arrow_down</span>
+            </button>
+        </div>
+    </section>
+    <!-- Section 6: Villa Experience (Gallery) -->
+    <section id="gallery-section" class="py-section-gap bg-surface-container-low reveal">
+        <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl lg:text-headline-lg text-primary mb-6 font-serif">Where Luxury Feels
+                    Like Home</h2>
+                <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Discover double-height
+                    living spaces, premium imported finishes, and a design philosophy that brings the outdoors in.</p>
+            </div>
+
+            <!-- Gallery Tabs -->
+            <div class="flex justify-center mb-12">
+                <div class="inline-flex bg-surface-container-high p-1 rounded-full border border-outline-variant/30">
+                    <button id="gallery-tab-exterior" onclick="switchGalleryTab('exterior')"
+                        class="px-8 py-2.5 rounded-full font-label-caps text-label-caps tracking-widest transition-all duration-300 bg-secondary text-white shadow-md">
+                        EXTERIOR
+                    </button>
+                    <button id="gallery-tab-interior" onclick="switchGalleryTab('interior')"
+                        class="px-8 py-2.5 rounded-full font-label-caps text-label-caps tracking-widest transition-all duration-300 text-on-surface-variant hover:text-primary">
+                        INTERIOR
+                    </button>
+                </div>
+            </div>
+            <!-- Desktop/Tablet Grid Gallery (visible on md and above) -->
+            <div class="hidden md:block">
+                <!-- Exterior Gallery Grid -->
+                <div id="gallery-grid-exterior"
+                    class="flex flex-col md:grid md:grid-cols-12 gap-4 md:gap-6 transition-all duration-500 ease-out">
+                    <!-- Image 1 -->
+                    <div onclick="openLightbox('exterior', 0)"
+                        class="w-full md:col-span-6 md:row-span-2 aspect-[4/3] md:aspect-auto md:h-[500px] relative overflow-hidden group cursor-pointer rounded-xl shadow-md border border-outline-variant/10">
+                        <img alt="Arvind Uplands One Villa Exterior View 1"
+                            class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                            src="Exterior1.png" />
+                        <div
+                            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div
+                                class="text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                <span class="material-symbols-outlined text-white text-3xl mb-2">fullscreen</span>
+                                <span class="block font-label-caps text-label-caps text-white tracking-widest">VIEW
+                                    GALLERY</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Mobile Horizontal Scroll Wrapper for Secondary Images -->
+                    <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 no-scrollbar md:contents">
+                        <!-- Image 2 -->
+                        <div onclick="openLightbox('exterior', 1)"
+                            class="snap-start shrink-0 w-[75vw] sm:w-[45vw] md:w-auto md:col-span-3 md:row-span-2 aspect-[4/3] md:aspect-auto md:h-[500px] relative overflow-hidden group cursor-pointer rounded-xl shadow-md border border-outline-variant/10">
+                            <img alt="Arvind Uplands One Villa Exterior View 2"
+                                class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                src="Exterior2.png" />
+                            <div
+                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div
+                                    class="text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                    <span class="material-symbols-outlined text-white text-3xl mb-2">fullscreen</span>
+                                    <span class="block font-label-caps text-label-caps text-white tracking-widest">VIEW
+                                        GALLERY</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Image 3 -->
+                        <div onclick="openLightbox('exterior', 2)"
+                            class="snap-start shrink-0 w-[75vw] sm:w-[45vw] md:w-auto md:col-span-3 md:row-span-1 aspect-[4/3] md:aspect-auto md:h-[238px] relative overflow-hidden group cursor-pointer rounded-xl shadow-md border border-outline-variant/10">
+                            <img alt="Arvind Uplands One Villa Exterior View 3"
+                                class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                src="Exterior3.png" />
+                            <div
+                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div
+                                    class="text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                    <span class="material-symbols-outlined text-white text-3xl mb-2">fullscreen</span>
+                                    <span class="block font-label-caps text-label-caps text-white tracking-widest">VIEW
+                                        GALLERY</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Image 4 -->
+                        <div onclick="openLightbox('exterior', 3)"
+                            class="snap-start shrink-0 w-[75vw] sm:w-[45vw] md:w-auto md:col-span-3 md:row-span-1 aspect-[4/3] md:aspect-auto md:h-[238px] relative overflow-hidden group cursor-pointer rounded-xl shadow-md border border-outline-variant/10">
+                            <img alt="Arvind Uplands One Villa Exterior View 4"
+                                class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                src="Exterior4.png" />
+                            <div
+                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div
+                                    class="text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                    <span class="material-symbols-outlined text-white text-3xl mb-2">fullscreen</span>
+                                    <span class="block font-label-caps text-label-caps text-white tracking-widest">VIEW
+                                        GALLERY</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interior Gallery Grid -->
+                <div id="gallery-grid-interior"
+                    class="flex flex-col md:grid-cols-12 gap-4 md:gap-6 transition-all duration-500 ease-out hidden opacity-0 scale-95">
+                    <!-- Image 1 -->
+                    <div onclick="openLightbox('interior', 0)"
+                        class="w-full md:col-span-6 md:row-span-2 aspect-[4/3] md:aspect-auto md:h-[500px] relative overflow-hidden group cursor-pointer rounded-xl shadow-md border border-outline-variant/10">
+                        <img alt="Arvind Uplands One Villa Interior View 1"
+                            class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                            src="Interior1.jpg" />
+                        <div
+                            class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div
+                                class="text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                <span class="material-symbols-outlined text-white text-3xl mb-2">fullscreen</span>
+                                <span class="block font-label-caps text-label-caps text-white tracking-widest">VIEW
+                                    GALLERY</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Mobile Horizontal Scroll Wrapper for Secondary Images -->
+                    <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 no-scrollbar md:contents">
+                        <!-- Image 2 -->
+                        <div onclick="openLightbox('interior', 1)"
+                            class="snap-start shrink-0 w-[75vw] sm:w-[45vw] md:w-auto md:col-span-3 md:row-span-2 aspect-[4/3] md:aspect-auto md:h-[500px] relative overflow-hidden group cursor-pointer rounded-xl shadow-md border border-outline-variant/10">
+                            <img alt="Arvind Uplands One Villa Interior View 2"
+                                class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                src="Interior2.jpg" />
+                            <div
+                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div
+                                    class="text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                    <span class="material-symbols-outlined text-white text-3xl mb-2">fullscreen</span>
+                                    <span class="block font-label-caps text-label-caps text-white tracking-widest">VIEW
+                                        GALLERY</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Image 3 -->
+                        <div onclick="openLightbox('interior', 2)"
+                            class="snap-start shrink-0 w-[75vw] sm:w-[45vw] md:w-auto md:col-span-3 md:row-span-1 aspect-[4/3] md:aspect-auto md:h-[238px] relative overflow-hidden group cursor-pointer rounded-xl shadow-md border border-outline-variant/10">
+                            <img alt="Arvind Uplands One Villa Interior View 3"
+                                class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                src="Interior3.jpg" />
+                            <div
+                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div
+                                    class="text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                    <span class="material-symbols-outlined text-white text-3xl mb-2">fullscreen</span>
+                                    <span class="block font-label-caps text-label-caps text-white tracking-widest">VIEW
+                                        GALLERY</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Image 4 -->
+                        <div onclick="openLightbox('interior', 3)"
+                            class="snap-start shrink-0 w-[75vw] sm:w-[45vw] md:w-auto md:col-span-3 md:row-span-1 aspect-[4/3] md:aspect-auto md:h-[238px] relative overflow-hidden group cursor-pointer rounded-xl shadow-md border border-outline-variant/10">
+                            <img alt="Arvind Uplands One Villa Interior View 4"
+                                class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                src="Interior4.jpg" />
+                            <div
+                                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div
+                                    class="text-center translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                    <span class="material-symbols-outlined text-white text-3xl mb-2">fullscreen</span>
+                                    <span class="block font-label-caps text-label-caps text-white tracking-widest">VIEW
+                                        GALLERY</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile/Tablet Interactive Gallery (visible on mobile only) -->
+            <div id="gallery-mobile-container" class="block md:hidden w-full flex flex-col gap-4">
+                <!-- Large Preview Area -->
+                <div onclick="openLightboxFromMobile()"
+                    class="relative w-full aspect-[4/3] overflow-hidden rounded-xl shadow-md border border-white/[0.08] cursor-pointer bg-white/5">
+                    <img id="mobile-gallery-preview" src="Exterior1.png" alt="Gallery Preview"
+                        class="w-full h-full object-cover transition-all duration-300 scale-100 opacity-100" />
+                    <!-- Zoom overlay icon -->
+                    <div
+                        class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <div class="text-center">
+                            <span class="material-symbols-outlined text-white text-3xl mb-1">fullscreen</span>
+                            <span class="block font-label-caps text-[10px] text-white tracking-widest">VIEW
+                                FULLSCREEN</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Horizontal Carousel of Thumbnails -->
+                <div class="w-full overflow-hidden">
+                    <div id="mobile-gallery-thumbnails"
+                        class="flex gap-3 overflow-x-auto no-scrollbar py-2 scroll-smooth snap-x snap-mandatory">
+                        <!-- Filled dynamically by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Section 7: Facts & Highlights -->
+    <section id="why-uplands-section" class="py-section-gap px-margin-mobile md:px-margin-desktop reveal">
+        <div class="max-w-3xl mx-auto text-center mb-16">
+            <h2 class="text-3xl md:text-4xl lg:text-headline-lg text-primary mb-6 font-serif">Why Arvind Uplands?</h2>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                A collection of rare experiences, world-class design, and lifestyle advantages found nowhere else in
+                Gujarat.
+            </p>
+        </div>
+
+        <!-- Mobile USP Tab Bar (visible on mobile, hidden on desktop) -->
+        <div
+            class="lg:hidden flex overflow-x-auto no-scrollbar gap-4 mb-6 border-b border-outline-variant/30 pb-3 scroll-smooth">
+            <button onclick="setActiveHighlightTab(0)"
+                class="highlight-tab shrink-0 px-5 py-3 rounded-full font-label-caps text-[10px] tracking-wider transition-all duration-300 bg-[#755a24] text-white shadow-sm">Golf
+                Course</button>
+            <button onclick="setActiveHighlightTab(1)"
+                class="highlight-tab shrink-0 px-5 py-3 rounded-full font-label-caps text-[10px] tracking-wider transition-all duration-300 bg-surface-container-high text-on-surface-variant hover:text-[#755a24] border border-outline-variant/30">LOHAS
+                Community</button>
+            <button onclick="setActiveHighlightTab(2)"
+                class="highlight-tab shrink-0 px-5 py-3 rounded-full font-label-caps text-[10px] tracking-wider transition-all duration-300 bg-surface-container-high text-on-surface-variant hover:text-[#755a24] border border-outline-variant/30">Woods
+                Bagot</button>
+            <button onclick="setActiveHighlightTab(3)"
+                class="highlight-tab shrink-0 px-5 py-3 rounded-full font-label-caps text-[10px] tracking-wider transition-all duration-300 bg-surface-container-high text-on-surface-variant hover:text-[#755a24] border border-outline-variant/30">Golf
+                Square</button>
+            <button onclick="setActiveHighlightTab(4)"
+                class="highlight-tab shrink-0 px-5 py-3 rounded-full font-label-caps text-[10px] tracking-wider transition-all duration-300 bg-surface-container-high text-on-surface-variant hover:text-[#755a24] border border-outline-variant/30">Fun
+                Square</button>
+            <button onclick="setActiveHighlightTab(5)"
+                class="highlight-tab shrink-0 px-5 py-3 rounded-full font-label-caps text-[10px] tracking-wider transition-all duration-300 bg-surface-container-high text-on-surface-variant hover:text-[#755a24] border border-outline-variant/30">Zen
+                Square</button>
+            <button onclick="setActiveHighlightTab(6)"
+                class="highlight-tab shrink-0 px-5 py-3 rounded-full font-label-caps text-[10px] tracking-wider transition-all duration-300 bg-surface-container-high text-on-surface-variant hover:text-[#755a24] border border-outline-variant/30">Waterfront
+                Villas</button>
+            <button onclick="setActiveHighlightTab(7)"
+                class="highlight-tab shrink-0 px-5 py-3 rounded-full font-label-caps text-[10px] tracking-wider transition-all duration-300 bg-surface-container-high text-on-surface-variant hover:text-[#755a24] border border-outline-variant/30">Concierge
+                Services</button>
+        </div>
+
+        <!-- Mobile Active Card Content Container -->
+        <div id="active-highlight-card-mobile" class="block lg:hidden w-full min-h-[260px] mb-8 animate-fade-in">
+            <!-- Dynamic content filled by JS -->
+        </div>
+
+        <!-- Initial Grid of 4 Cards (Desktop only) -->
+        <div id="usps-grid"
+            class="hidden lg:grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter mb-8 pt-20 -mt-20">
+            <!-- Card 1: Executive Golf Course -->
+            <div
+                class="h-full p-8 md:p-10 bg-white border border-outline-variant/60 hover:border-secondary hover:shadow-[0_20px_50px_rgba(117,90,36,0.08)] transition-all duration-500 ease-out group flex flex-col justify-between rounded-2xl relative overflow-hidden">
+                <div
+                    class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-secondary/40 to-secondary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out">
+                </div>
+                <div>
+                    <div
+                        class="w-14 h-14 rounded-full bg-secondary-container/10 border border-secondary/15 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:border-secondary transition-all duration-500">
+                        <span
+                            class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-500">sports_golf</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-xl md:text-[22px] md:leading-8 font-bold text-secondary mb-4 group-hover:text-primary transition-colors duration-300">
+                        Executive Golf Course</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        A private 9-hole golf course at the heart of the township, just a 2-minute walk from every
+                        villa.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 2: Gujarat's First LOHAS Community -->
+            <div
+                class="h-full p-8 md:p-10 bg-white border border-outline-variant/60 hover:border-secondary hover:shadow-[0_20px_50px_rgba(117,90,36,0.08)] transition-all duration-500 ease-out group flex flex-col justify-between rounded-2xl relative overflow-hidden">
+                <div
+                    class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-secondary/40 to-secondary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out">
+                </div>
+                <div>
+                    <div
+                        class="w-14 h-14 rounded-full bg-secondary-container/10 border border-secondary/15 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:border-secondary transition-all duration-500">
+                        <span
+                            class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-500">eco</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-xl md:text-[22px] md:leading-8 font-bold text-secondary mb-4 group-hover:text-primary transition-colors duration-300">
+                        Gujarat's First LOHAS Community</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        A lifestyle built around wellness, sustainability, nature trails, water bodies, and lush green
+                        landscapes.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 3: Designed by Woods Bagot -->
+            <div
+                class="h-full p-8 md:p-10 bg-white border border-outline-variant/60 hover:border-secondary hover:shadow-[0_20px_50px_rgba(117,90,36,0.08)] transition-all duration-500 ease-out group flex flex-col justify-between rounded-2xl relative overflow-hidden">
+                <div
+                    class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-secondary/40 to-secondary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out">
+                </div>
+                <div>
+                    <div
+                        class="w-14 h-14 rounded-full bg-secondary-container/10 border border-secondary/15 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:border-secondary transition-all duration-500">
+                        <span
+                            class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-500">architecture</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-xl md:text-[22px] md:leading-8 font-bold text-secondary mb-4 group-hover:text-primary transition-colors duration-300">
+                        Designed by Woods Bagot</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        Five distinct villa collections crafted by the globally renowned architectural firm from Hong
+                        Kong.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 4: Resort-Style Golf Square -->
+            <div
+                class="h-full p-8 md:p-10 bg-white border border-outline-variant/60 hover:border-secondary hover:shadow-[0_20px_50px_rgba(117,90,36,0.08)] transition-all duration-500 ease-out group flex flex-col justify-between rounded-2xl relative overflow-hidden">
+                <div
+                    class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-secondary/40 to-secondary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out">
+                </div>
+                <div>
+                    <div
+                        class="w-14 h-14 rounded-full bg-secondary-container/10 border border-secondary/15 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:border-secondary transition-all duration-500">
+                        <span
+                            class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-500">chalet</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-xl md:text-[22px] md:leading-8 font-bold text-secondary mb-4 group-hover:text-primary transition-colors duration-300">
+                        Resort-Style Golf Square</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        Clubhouse featuring sports courts, spa, theatre, fine dining, banquet facilities, and luxury
+                        guest suites.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden Additional Grid Container for remaining 5 Cards (Desktop only) -->
+        <div id="extra-highlights-wrapper"
+            class="hidden lg:grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter overflow-hidden transition-all duration-500 ease-in-out max-h-0 opacity-0 pointer-events-none">
+            <!-- Card 5: Disney-Inspired Fun Square -->
+            <div
+                class="h-full p-8 md:p-10 bg-white border border-outline-variant/60 hover:border-secondary hover:shadow-[0_20px_50px_rgba(117,90,36,0.08)] transition-all duration-500 ease-out group flex flex-col justify-between rounded-2xl relative overflow-hidden">
+                <div
+                    class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-secondary/40 to-secondary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out">
+                </div>
+                <div>
+                    <div
+                        class="w-14 h-14 rounded-full bg-secondary-container/10 border border-secondary/15 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:border-secondary transition-all duration-500">
+                        <span
+                            class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-500">attractions</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-xl md:text-[22px] md:leading-8 font-bold text-secondary mb-4 group-hover:text-primary transition-colors duration-300">
+                        Disney-Inspired Fun Square</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        A 59,000 sq.ft. family entertainment park with rides, skating rink, amphitheatre, and themed
+                        attractions.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 6: Zen Square Wellness Sanctuary -->
+            <div
+                class="h-full p-8 md:p-10 bg-white border border-outline-variant/60 hover:border-secondary hover:shadow-[0_20px_50px_rgba(117,90,36,0.08)] transition-all duration-500 ease-out group flex flex-col justify-between rounded-2xl relative overflow-hidden">
+                <div
+                    class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-secondary/40 to-secondary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out">
+                </div>
+                <div>
+                    <div
+                        class="w-14 h-14 rounded-full bg-secondary-container/10 border border-secondary/15 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:border-secondary transition-all duration-500">
+                        <span
+                            class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-500">self_improvement</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-xl md:text-[22px] md:leading-8 font-bold text-secondary mb-4 group-hover:text-primary transition-colors duration-300">
+                        Zen Square Wellness Sanctuary</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        A dedicated meditation and wellness retreat designed for mindfulness, relaxation, and balance.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 7: Waterfront Luxury Villas -->
+            <div
+                class="h-full p-8 md:p-10 bg-white border border-outline-variant/60 hover:border-secondary hover:shadow-[0_20px_50px_rgba(117,90,36,0.08)] transition-all duration-500 ease-out group flex flex-col justify-between rounded-2xl relative overflow-hidden">
+                <div
+                    class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-secondary/40 to-secondary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out">
+                </div>
+                <div>
+                    <div
+                        class="w-14 h-14 rounded-full bg-secondary-container/10 border border-secondary/15 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:border-secondary transition-all duration-500">
+                        <span
+                            class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-500">pool</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-xl md:text-[22px] md:leading-8 font-bold text-secondary mb-4 group-hover:text-primary transition-colors duration-300">
+                        Waterfront Luxury Villas</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        Standalone villas built around water bodies with optional private pools and imported finishes.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 8: Concierge Lifestyle Services -->
+            <div
+                class="h-full p-8 md:p-10 bg-white border border-outline-variant/60 hover:border-secondary hover:shadow-[0_20px_50px_rgba(117,90,36,0.08)] transition-all duration-500 ease-out group flex flex-col justify-between rounded-2xl relative overflow-hidden">
+                <div
+                    class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-secondary/40 to-secondary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out">
+                </div>
+                <div>
+                    <div
+                        class="w-14 h-14 rounded-full bg-secondary-container/10 border border-secondary/15 flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:border-secondary transition-all duration-500">
+                        <span
+                            class="material-symbols-outlined text-2xl text-secondary group-hover:text-white transition-colors duration-500">room_service</span>
+                    </div>
+                    <h3
+                        class="font-headline-md text-xl md:text-[22px] md:leading-8 font-bold text-secondary mb-4 group-hover:text-primary transition-colors duration-300">
+                        Concierge Lifestyle Services</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                        Housekeeping, club-car transfers, laundry, and hospitality services inspired by five-star
+                        resorts.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toggle Button Container (Desktop only) -->
+        <div class="hidden lg:flex justify-center mt-12">
+            <button id="toggle-highlights-btn" onclick="toggleHighlights()"
+                class="group px-8 py-4 bg-transparent border-2 border-secondary text-secondary font-label-caps text-label-caps tracking-widest hover:bg-secondary hover:text-white hover:shadow-lg transition-all duration-300 rounded-full flex items-center gap-3">
+                <span>VIEW ALL HIGHLIGHTS</span>
+                <span
+                    class="material-symbols-outlined transform group-hover:translate-y-1 transition-transform duration-300"
+                    id="toggle-highlights-icon">keyboard_arrow_down</span>
+            </button>
+        </div>
+    </section>
+    <!-- Section 8: Location -->
+    <section class="py-16 lg:py-32 bg-[#121312] text-white reveal border-t border-white/[0.04]" id="location-section">
+        <div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+            <div class="mb-10 lg:mb-14 max-w-3xl">
+                <span
+                    class="font-label-caps text-[11px] lg:text-label-caps text-secondary-fixed mb-3 block text-[#c5a880] tracking-[0.2em]">THE
+                    HUB</span>
+                <h2
+                    class="font-headline-lg text-[32px] lg:text-headline-lg mb-6 text-[#faf9f6] font-serif leading-tight">
+                    Where <span class="italic font-normal text-secondary-fixed">Sophistication</span> Meets <span
+                        class="font-normal text-secondary-fixed">Connectivity</span>
+                </h2>
+                <p class="font-body-md lg:font-body-lg text-body-md lg:text-body-lg text-white/60">
+                    Located in the prime corridor of Ahmedabad-Sanand, Arvind Uplands One offers seamless
+                    connectivity to key academic institutions, healthcare facilities, and thriving commercial hubs.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-stretch">
+                <!-- Mobile Active Card (visible only on mobile) -->
+                <div id="active-landmark-container-mobile" class="block lg:hidden w-full">
+                    <!-- Dynamic content of the active landmark card -->
+                </div>
+
+                <!-- Left Control Panel: 5 cols (Desktop only) -->
+                <div class="hidden lg:flex lg:col-span-5 flex-col gap-6 lg:h-[600px]">
+                    <!-- Scrollable Landmarks List -->
+                    <div id="landmarks-list"
+                        class="flex-1 min-h-0 flex flex-col gap-3 overflow-y-auto custom-scrollbar pr-2 pt-2">
+                        <!-- Dynamic content filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Right Map Panel: 7 cols -->
+                <div
+                    class="lg:col-span-7 relative flex flex-col h-[350px] lg:h-[600px] p-1.5 bg-[#1a1b1a] border border-[#755a24]/30 rounded-2xl shadow-2xl overflow-hidden">
+                    <!-- Floating Map Style HUD -->
+                    <div
+                        class="absolute top-4 lg:top-6 left-4 lg:left-6 z-[1000] hidden md:flex gap-1 bg-black/80 backdrop-blur-md p-1 rounded-full border border-white/10 shadow-lg">
+                        <button id="btn-map-standard"
+                            class="map-style-btn active text-[9px] lg:text-[10px] font-label-caps tracking-wider px-3 py-1.5 lg:px-3.5 rounded-full transition-all duration-300">STANDARD</button>
+                    </div>
+
+                    <!-- Leaflet map container -->
+                    <div id="map" class="w-full h-full rounded-xl overflow-hidden z-10"></div>
+
+                    <!-- Floating Route details overlay HUD (glassmorphism) -->
+                    <div id="route-hud" class="hidden" style="display: none !important;">
+                        <span
+                            class="text-[#c5a880] font-label-caps text-[9px] lg:text-[10px] tracking-[0.15em] block font-medium">SELECTED
+                            ROUTE</span>
+                        <h4 id="hud-destination"
+                            class="text-white font-serif text-xl lg:text-2xl font-light leading-tight italic">
+                            -</h4>
+                        <div class="flex gap-6 lg:gap-8 mt-1 lg:mt-2 border-t border-white/10 pt-2 lg:pt-3">
+                            <div class="flex items-center gap-2">
+                                <span
+                                    class="material-symbols-outlined text-[14px] lg:text-[16px] text-[#c5a880]">directions_car</span>
+                                <div>
+                                    <span
+                                        class="text-white/40 text-[8px] lg:text-[9px] font-label-caps tracking-wider block leading-none mb-0.5">DRIVE
+                                        TIME</span>
+                                    <span id="hud-time"
+                                        class="text-[#ffdea4] text-sm lg:text-base font-semibold">-</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span
+                                    class="material-symbols-outlined text-[14px] lg:text-[16px] text-[#c5a880]">route</span>
+                                <div>
+                                    <span
+                                        class="text-white/40 text-[8px] lg:text-[9px] font-label-caps tracking-wider block leading-none mb-0.5">DISTANCE</span>
+                                    <span id="hud-distance"
+                                        class="text-[#ffdea4] text-sm lg:text-base font-semibold">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Carousel (visible only on mobile, placed below the map) -->
+                <div id="landmarks-carousel-container-mobile" class="block lg:hidden w-full overflow-hidden mt-6">
+                    <div id="landmarks-carousel-mobile"
+                        class="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar py-2 px-1 scroll-smooth">
+                        <!-- Dynamic content filled by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Section 9: Enquiry Form -->
+    <section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface reveal" id="enquiry">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="font-headline-lg text-headline-lg text-primary mb-12">Schedule Your Private Experience</h2>
+            <div id="form-container">
+                <form id="enquiry-form" class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                    <div class="flex flex-col gap-2">
+                        <label
+                            class="font-label-caps text-[11px] font-bold tracking-[0.2em] uppercase text-on-surface-variant">FULL
+                            NAME</label>
+                        <input name="name"
+                            class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-b-2 focus:border-secondary focus:ring-0 px-0 py-3 font-body-md text-body-md transition-all shadow-none"
+                            placeholder="Enter your name" type="text" required />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label
+                            class="font-label-caps text-[11px] font-bold tracking-[0.2em] uppercase text-on-surface-variant">MOBILE
+                            NUMBER</label>
+                        <input name="phone"
+                            class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-b-2 focus:border-secondary focus:ring-0 px-0 py-3 font-body-md text-body-md transition-all shadow-none"
+                            placeholder="+91 XXXXX XXXXX" type="tel" required />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label
+                            class="font-label-caps text-[11px] font-bold tracking-[0.2em] uppercase text-on-surface-variant">EMAIL
+                            ADDRESS</label>
+                        <input name="email"
+                            class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-b-2 focus:border-secondary focus:ring-0 px-0 py-3 font-body-md text-body-md transition-all shadow-none"
+                            placeholder="email@example.com" type="email" required />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label
+                            class="font-label-caps text-[11px] font-bold tracking-[0.2em] uppercase text-on-surface-variant">MESSAGE/REQUIREMENTS
+                            (OPTIONAL)</label>
+                        <input name="message"
+                            class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-b-2 focus:border-secondary focus:ring-0 px-0 py-3 font-body-md text-body-md transition-all shadow-none"
+                            placeholder="Any specific requests or questions?" type="text" />
+                    </div>
+                    <div class="md:col-span-2 mt-8">
+                        <button
+                            class="w-full bg-primary text-on-primary py-6 font-label-caps text-label-caps tracking-widest hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3"
+                            type="submit">REQUEST EXCLUSIVE INVITATION</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sticky CTA -->
+    <div class='fixed bottom-4 right-4 md:bottom-8 md:right-8 z-[60] flex flex-col gap-4'>
+        <a class='bg-secondary text-white px-4 py-3 md:px-8 md:py-4 font-label-caps text-[10px] md:text-label-caps tracking-wider shadow-2xl rounded-full flex items-center gap-2 md:gap-3 hover:scale-105 transition-all duration-300'
+            href='#enquiry'>
+            <span class='material-symbols-outlined text-[18px] md:text-[24px]'>mail</span>
+            <span>ENQUIRE NOW</span>
+        </a>
+    </div>
+    <!-- Leaflet Location Map Script -->
+    <script>
+        const UPLANDS_COORDS = [23.0838, 72.4365]; // Accurate GPS coordinates for Arvind Uplands One on Shilaj-Rancharda road
+        let currentFetchId = 0;
+
+        const landmarksData = [
+            {
+                id: "krishna-hospital",
+                name: "Krishna Heart Hospital",
+                category: "healthcare",
+                categoryLabel: "Hospitals",
+                time: "17 mins",
+                distance: "9.9 km",
+                coords: [23.0232, 72.4642]
+            },
+            {
+                id: "rajpath",
+                name: "Rajpath Club",
+                category: "clubs",
+                categoryLabel: "Social Clubs",
+                time: "17 mins",
+                distance: "13.4 km",
+                coords: [23.034872193968578, 72.50960168220314]
+            },
+            {
+                id: "karnavati",
+                name: "Karnavati Club",
+                category: "clubs",
+                categoryLabel: "Social Clubs",
+                time: "18 mins",
+                distance: "15.3 km",
+                coords: [23.0185, 72.5036]
+            },
+            {
+                id: "airport",
+                name: "Airport",
+                category: "transport",
+                categoryLabel: "Transportation",
+                time: "35 mins",
+                distance: "29.5 km",
+                coords: [23.0772, 72.6347]
+            },
+            {
+                id: "new-karnavati",
+                name: "New Karnvati Club",
+                category: "clubs",
+                categoryLabel: "Social Clubs",
+                time: "19 mins",
+                distance: "16.1 km",
+                coords: [23.0974057592479, 72.36529371298711]
+            },
+            {
+                id: "new-rajpath",
+                name: "New Rajpath Club",
+                category: "clubs",
+                categoryLabel: "Social Clubs",
+                time: "18 mins",
+                distance: "10.5 km",
+                coords: [23.087106257938412, 72.3822124610153]
+            },
+            {
+                id: "sports-club",
+                name: "Sports Club",
+                category: "clubs",
+                categoryLabel: "Social Clubs",
+                time: "16 mins",
+                distance: "10.7 km",
+                coords: [23.05509703031944, 72.38531549719258]
+            },
+            {
+                id: "thol-sanctuary",
+                name: "Thol bird Sanctuary",
+                category: "shopping",
+                categoryLabel: "Leisure & Nature",
+                time: "21 mins",
+                distance: "15.1 km",
+                coords: [23.14079496008811, 72.39274977638698]
+            },
+            {
+                id: "anand-niketan-bhadaj",
+                name: "Anand Niketan bhadaj Campus",
+                category: "education",
+                categoryLabel: "Schools",
+                time: "9 mins",
+                distance: "4.7 km",
+                coords: [23.099263962598652, 72.45889674882238]
+            },
+            {
+                id: "calorix-olive",
+                name: "Calorix olive international School",
+                category: "education",
+                categoryLabel: "Schools",
+                time: "6 mins",
+                distance: "3.2 km",
+                coords: [23.096881673024498, 72.44616244352784]
+            },
+            {
+                id: "red-bricks",
+                name: "Red bricks School",
+                category: "education",
+                categoryLabel: "Schools",
+                time: "11 mins",
+                distance: "4.7 km",
+                coords: [23.10409510153563, 72.43515273072035]
+            },
+            {
+                id: "dental-college",
+                name: "Ahmedabad Dental College and hospital",
+                category: "healthcare",
+                categoryLabel: "Hospitals",
+                time: "7 mins",
+                distance: "3.8 km",
+                coords: [23.0965757925994, 72.4529916027167]
+            },
+            {
+                id: "indus-univ",
+                name: "Indus university",
+                category: "education",
+                categoryLabel: "Education",
+                time: "7 mins",
+                distance: "3.5 km",
+                coords: [23.064547912201295, 72.43966597618102]
+            },
+            {
+                id: "skips-univ",
+                name: "Skips university",
+                category: "education",
+                categoryLabel: "Education",
+                time: "11 mins",
+                distance: "6.2 km",
+                coords: [23.122080118055774, 72.44566815151904]
+            },
+            {
+                id: "hare-krishna-mandir",
+                name: "Hare Krishna Mandir",
+                category: "spiritual",
+                categoryLabel: "Temple",
+                time: "9 mins",
+                distance: "4.7 km",
+                coords: [23.09881268614526, 72.45804774606748]
+            },
+        ];
+
+        let map;
+        let voyagerLayer;
+        let satelliteLayer;
+        let activeMapStyle = 'standard';
+        let activePolyline = null;
+        let startMarker = null;
+        let endMarker = null;
+        let activeLandmarkId = null;
+        let currentCategory = 'all';
+
+        function switchMapStyle(style) {
+            const mapEl = document.getElementById('map');
+            if (!map || !mapEl) return;
+
+            activeMapStyle = style;
+
+            // Remove active class
+            document.querySelectorAll('.map-style-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            if (style === 'luxury') {
+                document.getElementById('btn-map-luxury').classList.add('active');
+                mapEl.classList.add('map-luxury');
+                if (!map.hasLayer(voyagerLayer)) {
+                    map.addLayer(voyagerLayer);
+                }
+                if (map.hasLayer(satelliteLayer)) {
+                    map.removeLayer(satelliteLayer);
+                }
+            } else if (style === 'standard') {
+                document.getElementById('btn-map-standard').classList.add('active');
+                mapEl.classList.remove('map-luxury');
+                if (!map.hasLayer(voyagerLayer)) {
+                    map.addLayer(voyagerLayer);
+                }
+                if (map.hasLayer(satelliteLayer)) {
+                    map.removeLayer(satelliteLayer);
+                }
+            } else if (style === 'satellite') {
+                document.getElementById('btn-map-satellite').classList.add('active');
+                mapEl.classList.remove('map-luxury');
+                if (!map.hasLayer(satelliteLayer)) {
+                    map.addLayer(satelliteLayer);
+                }
+                if (map.hasLayer(voyagerLayer)) {
+                    map.removeLayer(voyagerLayer);
+                }
+            }
+        }
+
+        function initMap() {
+            map = L.map('map', {
+                zoomControl: false,
+                scrollWheelZoom: false
+            }).setView([23.0700, 72.4800], 11);
+
+            L.control.zoom({ position: 'topright' }).addTo(map);
+
+            voyagerLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+            });
+
+            satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+            });
+
+            // Default to voyager layer and standard style on container
+            voyagerLayer.addTo(map);
+            const mapEl = document.getElementById('map');
+            if (mapEl) {
+                mapEl.classList.remove('map-luxury');
+            }
+
+            const startIcon = L.divIcon({
+                className: 'custom-start-marker',
+                html: `
+                    <div class="relative flex items-center justify-center">
+                        <div class="absolute w-8 h-8 rounded-full bg-[#755a24]/30 animate-ping"></div>
+                        <div class="absolute w-6 h-6 rounded-full bg-[#755a24]/60 animate-pulse"></div>
+                        <div class="w-4 h-4 rounded-full bg-[#755a24] border-2 border-white shadow-lg flex items-center justify-center">
+                            <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                        </div>
+                    </div>
+                `,
+                iconSize: [32, 32],
+                iconAnchor: [16, 16]
+            });
+
+            startMarker = L.marker(UPLANDS_COORDS, { icon: startIcon }).addTo(map);
+            startMarker.bindTooltip("Arvind Uplands One", { permanent: true, direction: 'top', className: 'luxury-tooltip' });
+        }
+
+        function renderLandmarksList(updateDOM = true) {
+            const listContainer = document.getElementById('landmarks-list');
+            const mobileActiveContainer = document.getElementById('active-landmark-container-mobile');
+            const mobileCarousel = document.getElementById('landmarks-carousel-mobile');
+
+            if (updateDOM) {
+                // Desktop rendering
+                if (listContainer) {
+                    listContainer.innerHTML = '';
+                    const filtered = landmarksData.filter(item => {
+                        return currentCategory === 'all' || item.category === currentCategory;
+                    });
+
+                    if (filtered.length === 0) {
+                        listContainer.innerHTML = "<div class='text-center py-12 text-white/30 font-body-md'>No locations found in this category.</div>";
+                    } else {
+                        filtered.forEach(item => {
+                            const card = document.createElement('div');
+                            card.dataset.id = item.id;
+                            const isActive = item.id === activeLandmarkId;
+
+                            card.className = `group relative overflow-hidden bg-white/[0.02] border ${isActive
+                                ? 'border-[#755a24] bg-[#755a24]/10 shadow-[0_4px_20px_rgba(117,90,24,0.15)]'
+                                : 'border-white/[0.06] hover:border-[#755a24]/40 hover:bg-white/[0.04]'
+                                } py-4 px-6 rounded-2xl transition-all duration-300 cursor-pointer flex justify-between items-center hover:-translate-y-0.5 shrink-0`;
+
+                            card.innerHTML = `
+                                <div class='flex flex-col pr-3 z-10 gap-1.5'>
+                                    <span class='text-white font-semibold text-[15px] leading-snug group-hover:text-white transition-colors'>${item.name}</span>
+                                    <span class='text-[10px] text-white/50 font-label-caps tracking-widest leading-none uppercase'>${item.categoryLabel}</span>
+                                </div>
+                                <div class='text-right flex flex-col items-end shrink-0 z-10 gap-1.5'>
+                                    <span class='text-[#ffdea4] font-semibold text-[14px] leading-snug landmark-time'>${item.time}</span>
+                                    <span class='text-[10px] text-white/40 leading-none landmark-distance'>${item.distance}</span>
+                                </div>
+                                ${isActive ? "<div class='absolute left-0 top-3 bottom-3 w-1 bg-[#755a24] rounded-full'></div>" : ''}
+                            `;
+
+                            card.addEventListener('click', () => selectLandmark(item));
+                            listContainer.appendChild(card);
+                        });
+                    }
+                }
+
+                // Mobile rendering
+                if (mobileActiveContainer && mobileCarousel) {
+                    mobileActiveContainer.innerHTML = '';
+                    mobileCarousel.innerHTML = '';
+
+                    // 1. Render active featured landmark card
+                    const activeItem = landmarksData.find(item => item.id === activeLandmarkId) || landmarksData[0];
+                    if (activeItem) {
+                        const card = document.createElement('div');
+                        card.className = "bg-[#755a24]/10 border border-[#755a24] py-4.5 px-6 rounded-2xl flex justify-between items-center shadow-[0_4px_20px_rgba(117,90,24,0.15)] w-full animate-fade-in";
+                        card.innerHTML = `
+                            <div class='flex flex-col pr-3 z-10 gap-1.5'>
+                                <span class='text-white font-semibold text-[15px] leading-snug'>${activeItem.name}</span>
+                                <span class='text-[10px] text-white/50 font-label-caps tracking-widest leading-none uppercase'>${activeItem.categoryLabel}</span>
+                            </div>
+                            <div class='text-right flex flex-col items-end shrink-0 z-10 gap-1.5'>
+                                <span class='text-[#ffdea4] font-semibold text-[14px] leading-snug landmark-time'>${activeItem.time}</span>
+                                <span class='text-[10px] text-white/40 leading-none landmark-distance'>${activeItem.distance}</span>
+                            </div>
+                        `;
+                        mobileActiveContainer.appendChild(card);
+                    }
+
+                    // 2. Render all location tabs horizontally scrollable
+                    landmarksData.forEach(item => {
+                        const tab = document.createElement('button');
+                        tab.dataset.id = item.id;
+                        const isActive = item.id === activeLandmarkId;
+
+                        if (isActive) {
+                            tab.className = "snap-start shrink-0 px-5 py-3 rounded-full font-label-caps text-[10px] tracking-wider transition-all duration-300 bg-[#755a24] text-white border border-[#755a24] shadow-md";
+                        } else {
+                            tab.className = "snap-start shrink-0 px-5 py-3 rounded-full font-label-caps text-[10px] tracking-wider transition-all duration-300 bg-white/[0.04] text-white/60 hover:text-white border border-white/[0.06]";
+                        }
+
+                        tab.textContent = item.name;
+
+                        tab.addEventListener('click', () => {
+                            selectLandmark(item);
+                        });
+
+                        mobileCarousel.appendChild(tab);
+
+                        // Scroll active tab into center view on selection / load
+                        if (isActive) {
+                            setTimeout(() => {
+                                const parent = mobileCarousel;
+                                const parentRect = parent.getBoundingClientRect();
+                                const tabRect = tab.getBoundingClientRect();
+                                const offset = tabRect.left - parentRect.left - (parentRect.width / 2) + (tabRect.width / 2);
+                                parent.scrollBy({ left: offset, behavior: 'smooth' });
+                            }, 50);
+                        }
+                    });
+                }
+            } else {
+                // Non-DOM update (distances, times only)
+                landmarksData.forEach(item => {
+                    if (listContainer) {
+                        const card = listContainer.querySelector(`[data-id="${item.id}"]`);
+                        if (card) {
+                            const timeSpan = card.querySelector('.landmark-time');
+                            const distSpan = card.querySelector('.landmark-distance');
+                            if (timeSpan) timeSpan.textContent = item.time;
+                            if (distSpan) distSpan.textContent = item.distance;
+                        }
+                    }
+                    if (mobileCarousel) {
+                        const card = mobileCarousel.querySelector(`[data-id="${item.id}"]`);
+                        if (card) {
+                            const timeSpan = card.querySelector('.landmark-time');
+                            const distSpan = card.querySelector('.landmark-distance');
+                            if (timeSpan) timeSpan.textContent = item.time;
+                            if (distSpan) distSpan.textContent = item.distance;
+                        }
+                    }
+                });
+
+                if (mobileActiveContainer) {
+                    const activeItem = landmarksData.find(item => item.id === activeLandmarkId);
+                    if (activeItem) {
+                        const timeSpan = mobileActiveContainer.querySelector('.landmark-time');
+                        const distSpan = mobileActiveContainer.querySelector('.landmark-distance');
+                        if (timeSpan) timeSpan.textContent = activeItem.time;
+                        if (distSpan) distSpan.textContent = activeItem.distance;
+                    }
+                }
+            }
+        }
+
+        function selectLandmark(item) {
+            activeLandmarkId = item.id;
+            renderLandmarksList(true); // Re-render DOM to update selection visual indicator
+
+            if (endMarker) {
+                map.removeLayer(endMarker);
+            }
+            if (activePolyline) {
+                map.removeLayer(activePolyline);
+            }
+
+            const destIcon = L.divIcon({
+                className: 'custom-dest-marker',
+                html: `
+                    <div class="relative flex items-center justify-center">
+                        <div class="absolute w-8 h-8 rounded-full bg-[#accfb1]/30 animate-pulse"></div>
+                        <div class="w-5 h-5 rounded-full bg-[#accfb1] border-2 border-[#1a1c1a] shadow-lg flex items-center justify-center">
+                            <span class="material-symbols-outlined text-[12px] text-[#1a1c1a] font-bold">pin_drop</span>
+                        </div>
+                    </div>
+                `,
+                iconSize: [32, 32],
+                iconAnchor: [16, 16]
+            });
+
+            endMarker = L.marker(item.coords, { icon: destIcon }).addTo(map);
+            endMarker.bindTooltip(item.name, { permanent: false, direction: 'top', className: 'luxury-tooltip' });
+
+            const hud = document.getElementById('route-hud');
+            if (hud) {
+                document.getElementById('hud-destination').textContent = item.name;
+                document.getElementById('hud-time').textContent = '...';
+                document.getElementById('hud-distance').textContent = '...';
+                hud.classList.remove('opacity-0', 'translate-y-4');
+                hud.classList.add('opacity-100', 'translate-y-0');
+            }
+
+            // Immediately draw temporary dashed line for instant feedback during routing fetch
+            const tempCoords = [UPLANDS_COORDS, item.coords];
+            activePolyline = L.polyline(tempCoords, {
+                color: '#755a24',
+                weight: 2,
+                opacity: 0.35,
+                dashArray: '5, 10'
+            }).addTo(map);
+
+            map.fitBounds(activePolyline.getBounds(), {
+                padding: [50, 50],
+                maxZoom: 14,
+                animate: true,
+                duration: 0.5
+            });
+
+            const fetchId = ++currentFetchId;
+            const startStr = `${UPLANDS_COORDS[1]},${UPLANDS_COORDS[0]}`;
+            const endStr = `${item.coords[1]},${item.coords[0]}`;
+
+            fetch(`https://router.project-osrm.org/route/v1/driving/${startStr};${endStr}?overview=full&geometries=geojson`)
+                .then(res => res.json())
+                .then(data => {
+                    if (fetchId !== currentFetchId) return; // Prevent race conditions on double clicks
+
+                    if (data.routes && data.routes.length > 0) {
+                        const route = data.routes[0];
+                        const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
+
+                        // Prepend/append pin coordinates so the path starts and ends exactly on the pins
+                        coords.unshift(UPLANDS_COORDS);
+                        coords.push(item.coords);
+
+                        const actualDist = (route.distance / 1000).toFixed(1) + ' km';
+                        const actualTime = Math.round(route.duration / 60) + ' mins';
+
+                        if (hud) {
+                            document.getElementById('hud-time').textContent = actualTime;
+                            document.getElementById('hud-distance').textContent = actualDist;
+                        }
+
+                        // Update lists without resetting DOM elements (prevents UI scroll jumping)
+                        item.time = actualTime;
+                        item.distance = actualDist;
+                        renderLandmarksList(false);
+
+                        // Fit bounds to new road coordinates
+                        const routePolyline = L.polyline(coords);
+                        map.fitBounds(routePolyline.getBounds(), {
+                            padding: [50, 50],
+                            maxZoom: 14,
+                            animate: true,
+                            duration: 0.5
+                        });
+
+                        // Clear dashed line & draw actual road polyline with animation AFTER the zoom transition has completed
+                        setTimeout(() => {
+                            if (fetchId !== currentFetchId) return;
+
+                            if (activePolyline) {
+                                map.removeLayer(activePolyline);
+                            }
+
+                            activePolyline = L.polyline(coords, {
+                                color: '#755a24',
+                                weight: 4,
+                                opacity: 0.85,
+                                lineCap: 'round',
+                                lineJoin: 'round'
+                            }).addTo(map);
+
+                            const path = activePolyline.getElement();
+                            if (path) {
+                                const length = path.getTotalLength();
+                                path.style.strokeDasharray = length;
+                                path.style.strokeDashoffset = length;
+                                path.getBoundingClientRect();
+                                path.style.transition = 'stroke-dashoffset 1.2s ease-in-out';
+                                path.style.strokeDashoffset = '0';
+                            }
+                        }, 550);
+                    }
+                })
+                .catch(err => {
+                    if (fetchId !== currentFetchId) return;
+                    console.error("OSRM Route Error, falling back:", err);
+
+                    // Fall back to clean solid straight line
+                    if (activePolyline) {
+                        map.removeLayer(activePolyline);
+                    }
+                    activePolyline = L.polyline(tempCoords, {
+                        color: '#755a24',
+                        weight: 4,
+                        opacity: 0.85,
+                        lineCap: 'round',
+                        lineJoin: 'round'
+                    }).addTo(map);
+
+                    if (hud) {
+                        document.getElementById('hud-time').textContent = item.time;
+                        document.getElementById('hud-distance').textContent = item.distance;
+                    }
+                });
+        }
+
+        // Initialize Map & Event Handlers
+        document.addEventListener('DOMContentLoaded', () => {
+            initMap();
+            renderLandmarksList();
+
+            if (landmarksData.length > 0) {
+                setTimeout(() => {
+                    selectLandmark(landmarksData[0]);
+                }, 400);
+            }
+
+            // Category click listener
+            const categoryTabs = document.getElementById('category-tabs');
+            if (categoryTabs) {
+                categoryTabs.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.category-btn');
+                    if (!btn) return;
+
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    currentCategory = btn.getAttribute('data-category');
+                    renderLandmarksList(true);
+
+                    // Auto-select first item in new category tab
+                    const listContainer = document.getElementById('landmarks-list');
+                    const visibleCards = listContainer.querySelectorAll('[data-id]');
+                    if (visibleCards.length > 0) {
+                        const firstId = visibleCards[0].dataset.id;
+                        const firstItem = landmarksData.find(item => item.id === firstId);
+                        if (firstItem) selectLandmark(firstItem);
+                    }
+                });
+            }
+
+            // Map Style Toggles
+            const btnLuxury = document.getElementById('btn-map-luxury');
+            const btnStandard = document.getElementById('btn-map-standard');
+            const btnSatellite = document.getElementById('btn-map-satellite');
+
+            if (btnLuxury) btnLuxury.addEventListener('click', () => switchMapStyle('luxury'));
+            if (btnStandard) btnStandard.addEventListener('click', () => switchMapStyle('standard'));
+            if (btnSatellite) btnSatellite.addEventListener('click', () => switchMapStyle('satellite'));
+        });
+    </script>
+
+    <script>
+        // Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load
+        window.addEventListener("load", reveal);
+    </script>
+
+    <!-- Lightbox / Gallery Viewer -->
+    <div id="gallery-lightbox"
+        class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md hidden opacity-0 transition-all duration-300 flex flex-col justify-between items-center py-6 px-4 select-none">
+        <!-- Top Bar -->
+        <div class="w-full max-w-container-max mx-auto flex justify-between items-center px-4 md:px-8 z-10">
+            <div class="text-white/85 font-label-caps text-label-caps tracking-widest text-sm" id="lightbox-title">
+                EXTERIOR GALLERY
+            </div>
+            <!-- Close Button -->
+            <button onclick="closeLightbox()"
+                class="text-white/70 hover:text-white hover:rotate-90 hover:scale-110 transition-all duration-300 p-2 focus:outline-none">
+                <span class="material-symbols-outlined text-3xl">close</span>
+            </button>
+        </div>
+
+        <!-- Main Content Area (Image and Navigation) -->
+        <div class="relative w-full flex-1 flex items-center justify-center max-h-[80vh]">
+            <!-- Prev Button -->
+            <button onclick="prevImage()"
+                class="absolute left-4 md:left-8 z-10 text-white/70 hover:text-white hover:scale-110 transition-all duration-300 p-3 bg-black/35 rounded-full border border-white/10 hover:border-white/30 backdrop-blur-sm focus:outline-none">
+                <span class="material-symbols-outlined text-3xl">arrow_back_ios_new</span>
+            </button>
+
+            <!-- Image Container -->
+            <div class="w-full h-full flex items-center justify-center p-4">
+                <img id="lightbox-img"
+                    class="max-w-full max-h-full object-contain rounded transition-all duration-300 ease-in-out scale-100 opacity-100"
+                    src="" alt="Gallery Image" />
+            </div>
+
+            <!-- Next Button -->
+            <button onclick="nextImage()"
+                class="absolute right-4 md:right-8 z-10 text-white/70 hover:text-white hover:scale-110 transition-all duration-300 p-3 bg-black/35 rounded-full border border-white/10 hover:border-white/30 backdrop-blur-sm focus:outline-none">
+                <span class="material-symbols-outlined text-3xl">arrow_forward_ios</span>
+            </button>
+        </div>
+
+        <!-- Bottom Bar (Counter / Caption) -->
+        <div class="w-full text-center pb-2 z-10">
+            <span class="font-label-caps text-label-caps text-white/60 tracking-[0.2em] text-sm" id="lightbox-counter">
+                1 / 11
+            </span>
+        </div>
+    </div>
+
+    <script>
+        // Gallery Assets Data
+        const exteriorImages = [
+            'Exterior1.png',
+            'Exterior2.png',
+            'Exterior3.png',
+            'Exterior4.png',
+            'Exterior5.png',
+            'Exterior6.png',
+            'Exterior7.png',
+            'Exterior8.png',
+            'Exterior9.png',
+            'Exterior10.png',
+            'Exterior11.png',
+            'Exterior12.png',
+            'Exterior13.png',
+            'Exterior14.png'
+        ];
+
+        const interiorImages = [
+            'Interior1.jpg',
+            'Interior2.jpg',
+            'Interior3.jpg',
+            'Interior4.jpg',
+            'Interior5.jpg',
+            'Interior6.jpg',
+            'Interior7.jpg',
+            'Interior8.png',
+            'Interior9.png',
+            'Interior10.png',
+            'Interior11.png',
+            'Interior12.png'
+        ];
+
+        let currentGalleryCategory = 'exterior';
+        let currentGalleryImages = [];
+        let currentImageIndex = 0;
+        let mobileSelectedImageIndex = 0;
+
+        function renderMobileGallery() {
+            const previewImg = document.getElementById('mobile-gallery-preview');
+            const thumbnailsContainer = document.getElementById('mobile-gallery-thumbnails');
+
+            if (!previewImg || !thumbnailsContainer) return;
+
+            const images = currentGalleryCategory === 'exterior' ? exteriorImages : interiorImages;
+
+            // Set preview source
+            previewImg.src = images[mobileSelectedImageIndex];
+
+            // Render thumbnails
+            thumbnailsContainer.innerHTML = '';
+            images.forEach((imgSrc, idx) => {
+                const thumb = document.createElement('div');
+                const isActive = idx === mobileSelectedImageIndex;
+
+                thumb.className = `snap-start shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-300 ${isActive ? 'border-[#755a24] scale-95 shadow-md opacity-100' : 'border-white/[0.08] opacity-60 hover:opacity-90'
+                    }`;
+
+                thumb.innerHTML = `<img src="${imgSrc}" class="w-full h-full object-cover" alt="Thumbnail ${idx + 1}" />`;
+
+                thumb.addEventListener('click', () => {
+                    selectMobileGalleryImage(idx);
+                });
+
+                thumbnailsContainer.appendChild(thumb);
+            });
+        }
+
+        function selectMobileGalleryImage(index) {
+            const previewImg = document.getElementById('mobile-gallery-preview');
+            if (!previewImg) return;
+
+            const images = currentGalleryCategory === 'exterior' ? exteriorImages : interiorImages;
+            if (index < 0 || index >= images.length) return;
+
+            mobileSelectedImageIndex = index;
+
+            // Apply smooth transition (fade out, change source, fade in)
+            previewImg.classList.add('opacity-0', 'scale-95');
+
+            setTimeout(() => {
+                previewImg.src = images[mobileSelectedImageIndex];
+                previewImg.onload = () => {
+                    previewImg.classList.remove('opacity-0', 'scale-95');
+                };
+                // Fallback
+                setTimeout(() => {
+                    previewImg.classList.remove('opacity-0', 'scale-95');
+                }, 50);
+
+                // Re-render thumbnails to update active border
+                const thumbnails = document.getElementById('mobile-gallery-thumbnails').children;
+                Array.from(thumbnails).forEach((thumb, idx) => {
+                    const isActive = idx === mobileSelectedImageIndex;
+                    if (isActive) {
+                        thumb.className = "snap-start shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 border-[#755a24] scale-95 shadow-md opacity-100 transition-all duration-300";
+                        // Scroll thumb into view
+                        const parent = thumb.parentElement;
+                        const parentRect = parent.getBoundingClientRect();
+                        const thumbRect = thumb.getBoundingClientRect();
+                        const offset = thumbRect.left - parentRect.left - (parentRect.width / 2) + (thumbRect.width / 2);
+                        parent.scrollBy({ left: offset, behavior: 'smooth' });
+                    } else {
+                        thumb.className = "snap-start shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 border-white/[0.08] opacity-60 hover:opacity-90 transition-all duration-300";
+                    }
+                });
+            }, 150);
+        }
+
+        function openLightboxFromMobile() {
+            openLightbox(currentGalleryCategory, mobileSelectedImageIndex);
+        }
+
+        // Tab Switching Logic
+        function switchGalleryTab(tab) {
+            currentGalleryCategory = tab;
+            mobileSelectedImageIndex = 0;
+            renderMobileGallery();
+
+            const extBtn = document.getElementById('gallery-tab-exterior');
+            const intBtn = document.getElementById('gallery-tab-interior');
+            const extGrid = document.getElementById('gallery-grid-exterior');
+            const intGrid = document.getElementById('gallery-grid-interior');
+
+            if (!extBtn || !intBtn || !extGrid || !intGrid) return;
+
+            if (tab === 'exterior') {
+                extBtn.className = "px-8 py-2.5 rounded-full font-label-caps text-label-caps tracking-widest transition-all duration-300 bg-secondary text-white shadow-md";
+                intBtn.className = "px-8 py-2.5 rounded-full font-label-caps text-label-caps tracking-widest transition-all duration-300 text-on-surface-variant hover:text-primary";
+
+                intGrid.classList.add('opacity-0', 'scale-95');
+                setTimeout(() => {
+                    intGrid.classList.add('hidden');
+                    intGrid.classList.remove('md:grid');
+                    extGrid.classList.remove('hidden');
+                    extGrid.classList.add('md:grid');
+                    extGrid.offsetHeight; // force reflow
+                    extGrid.classList.remove('opacity-0', 'scale-95');
+                }, 300);
+            } else {
+                intBtn.className = "px-8 py-2.5 rounded-full font-label-caps text-label-caps tracking-widest transition-all duration-300 bg-secondary text-white shadow-md";
+                extBtn.className = "px-8 py-2.5 rounded-full font-label-caps text-label-caps tracking-widest transition-all duration-300 text-on-surface-variant hover:text-primary";
+
+                extGrid.classList.add('opacity-0', 'scale-95');
+                setTimeout(() => {
+                    extGrid.classList.add('hidden');
+                    extGrid.classList.remove('md:grid');
+                    intGrid.classList.remove('hidden');
+                    intGrid.classList.add('md:grid');
+                    intGrid.offsetHeight; // force reflow
+                    intGrid.classList.remove('opacity-0', 'scale-95');
+                }, 300);
+            }
+        }
+
+        // Lightbox Control Logic
+        function openLightbox(category, index) {
+            currentGalleryCategory = category;
+            currentGalleryImages = category === 'exterior' ? exteriorImages : interiorImages;
+            currentImageIndex = index;
+
+            const lightbox = document.getElementById('gallery-lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxTitle = document.getElementById('lightbox-title');
+            const lightboxCounter = document.getElementById('lightbox-counter');
+
+            if (!lightbox || !lightboxImg || !lightboxTitle || !lightboxCounter) return;
+
+            lightboxTitle.textContent = `${category.toUpperCase()} GALLERY`;
+            lightboxImg.src = currentGalleryImages[currentImageIndex];
+            lightboxCounter.textContent = `${currentImageIndex + 1} / ${currentGalleryImages.length}`;
+
+            // Lock screen scroll
+            document.body.style.overflow = 'hidden';
+
+            lightbox.classList.remove('hidden');
+            lightbox.offsetHeight; // force reflow
+            lightbox.classList.remove('opacity-0');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('gallery-lightbox');
+            if (!lightbox) return;
+
+            lightbox.classList.add('opacity-0');
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        function updateLightboxImage(index) {
+            const img = document.getElementById('lightbox-img');
+            const counter = document.getElementById('lightbox-counter');
+
+            if (!img || !counter || index < 0 || index >= currentGalleryImages.length) return;
+
+            currentImageIndex = index;
+
+            // Add fade out and zoom out transition
+            img.classList.add('opacity-0', 'scale-95');
+
+            setTimeout(() => {
+                img.src = currentGalleryImages[currentImageIndex];
+
+                // Show when loaded
+                img.onload = () => {
+                    img.classList.remove('opacity-0', 'scale-95');
+                };
+                // Fallback
+                setTimeout(() => {
+                    img.classList.remove('opacity-0', 'scale-95');
+                }, 50);
+
+                counter.textContent = `${currentImageIndex + 1} / ${currentGalleryImages.length}`;
+            }, 150);
+        }
+
+        function nextImage() {
+            if (currentGalleryImages.length === 0) return;
+            const nextIdx = (currentImageIndex + 1) % currentGalleryImages.length;
+            updateLightboxImage(nextIdx);
+        }
+
+        function prevImage() {
+            if (currentGalleryImages.length === 0) return;
+            const prevIdx = (currentImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+            updateLightboxImage(prevIdx);
+        }
+
+        // Keyboard navigation
+        window.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('gallery-lightbox');
+            if (!lightbox || lightbox.classList.contains('hidden')) return;
+
+            if (e.key === 'ArrowRight') {
+                nextImage();
+            } else if (e.key === 'ArrowLeft') {
+                prevImage();
+            } else if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // Swipe gestures for touch devices
+        let touchstartX = 0;
+        let touchendX = 0;
+        let touchstartY = 0;
+        let touchendY = 0;
+
+        function handleSwipeGesture() {
+            const deltaX = touchendX - touchstartX;
+            const deltaY = touchendY - touchstartY;
+
+            // Ensure it is a horizontal swipe and meets threshold
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+                if (deltaX < 0) {
+                    nextImage(); // Swiped left
+                } else {
+                    prevImage(); // Swiped right
+                }
+            }
+        }
+
+        // Facts & Highlights Toggle Function
+        function toggleHighlights() {
+            const extraWrapper = document.getElementById('extra-highlights-wrapper');
+            const btnText = document.querySelector('#toggle-highlights-btn > span:first-child');
+            const btnIcon = document.getElementById('toggle-highlights-icon');
+
+            if (!extraWrapper || !btnText || !btnIcon) return;
+
+            const isCollapsed = extraWrapper.classList.contains('max-h-0');
+
+            if (isCollapsed) {
+                // Expand
+                extraWrapper.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none');
+                extraWrapper.classList.add('opacity-100');
+                extraWrapper.style.maxHeight = extraWrapper.scrollHeight + 'px';
+
+                btnText.textContent = 'SHOW LESS';
+                btnIcon.classList.add('rotate-180');
+            } else {
+                // Collapse
+                extraWrapper.style.maxHeight = '0px';
+                extraWrapper.classList.remove('opacity-100');
+                extraWrapper.classList.add('max-h-0', 'opacity-0', 'pointer-events-none');
+
+                btnText.textContent = 'VIEW ALL HIGHLIGHTS';
+                btnIcon.classList.remove('rotate-180');
+
+                // Scroll back to the section top smoothly
+                const section = document.getElementById('why-uplands-section');
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }
+
+        // Amenities Toggle Function
+        function toggleAmenities() {
+            const grid = document.getElementById('amenities-grid');
+            const btnText = document.querySelector('#toggle-amenities-btn > span:first-child');
+            const btnIcon = document.getElementById('toggle-amenities-icon');
+
+            if (!grid || !btnText || !btnIcon) return;
+
+            const isCollapsed = !grid.classList.contains('expanded');
+
+            if (isCollapsed) {
+                // Expand
+                grid.classList.add('expanded');
+
+                // Get full scroll height
+                const prevMaxHeight = grid.style.maxHeight;
+                grid.style.maxHeight = 'none';
+                const fullHeight = grid.scrollHeight;
+                grid.style.maxHeight = prevMaxHeight;
+                grid.offsetHeight; // force reflow
+
+                grid.style.maxHeight = fullHeight + 'px';
+
+                btnText.textContent = 'SHOW LESS';
+                btnIcon.classList.add('rotate-180');
+
+                // Staggered reveal for extra cards
+                const extraCards = document.querySelectorAll('.amenity-card-tier-2, .amenity-card-tier-3');
+                extraCards.forEach((card, idx) => {
+                    card.style.animationDelay = `${idx * 12}ms`;
+                    card.classList.add('amenity-card-animate');
+                });
+            } else {
+                // Collapse
+                const targetHeight = window.innerWidth >= 1280 ? '160px' : (window.innerWidth >= 768 ? '336px' : '304px');
+
+                btnText.textContent = 'VIEW ALL AMENITIES';
+                btnIcon.classList.remove('rotate-180');
+
+                // Scroll back to top of amenities section smoothly first, accounting for sticky header (80px)
+                const section = document.getElementById('amenities-section');
+                if (section) {
+                    const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - 80;
+                    window.scrollTo({ top: sectionTop, behavior: 'smooth' });
+                }
+
+                // Delay the actual collapse transition slightly (150ms) to allow the scroll to start smoothly
+                setTimeout(() => {
+                    grid.style.maxHeight = targetHeight;
+                    grid.classList.remove('expanded');
+
+                    // Reset animations
+                    const extraCards = document.querySelectorAll('.amenity-card-tier-2, .amenity-card-tier-3');
+                    extraCards.forEach((card) => {
+                        card.classList.remove('amenity-card-animate');
+                        card.style.animationDelay = '';
+                    });
+                }, 150);
+
+                // Clear inline style after transition to return to responsive CSS rules
+                setTimeout(() => {
+                    if (!grid.classList.contains('expanded')) {
+                        grid.style.maxHeight = '';
+                    }
+                }, 850); // 150ms delay + 700ms transition time
+            }
+        }
+
+        // Mobile Navigation Menu Logic
+        function toggleMobileMenu() {
+            const overlay = document.getElementById('mobile-menu-overlay');
+            const menu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            if (!overlay || !menu || !menuIcon) return;
+
+            const isOpen = !menu.classList.contains('translate-x-full');
+
+            if (isOpen) {
+                closeMobileMenu();
+            } else {
+                overlay.classList.remove('pointer-events-none', 'opacity-0');
+                overlay.classList.add('opacity-100');
+                menu.classList.remove('translate-x-full');
+                menuIcon.textContent = 'close';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeMobileMenu() {
+            const overlay = document.getElementById('mobile-menu-overlay');
+            const menu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            if (!overlay || !menu || !menuIcon) return;
+
+            overlay.classList.remove('opacity-100');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            menu.classList.add('translate-x-full');
+            menuIcon.textContent = 'menu';
+            document.body.style.overflow = '';
+        }
+
+        // Section 7: Facts & Highlights (Why Arvind Uplands Mobile Tabs Logic)
+        const highlightCardsData = [
+            {
+                title: "Executive Golf Course",
+                icon: "sports_golf",
+                description: "A private 9-hole golf course at the heart of the township, just a 2-minute walk from every villa."
+            },
+            {
+                title: "Gujarat's First LOHAS Community",
+                icon: "eco",
+                description: "A lifestyle built around wellness, sustainability, nature trails, water bodies, and lush green landscapes."
+            },
+            {
+                title: "Designed by Woods Bagot",
+                icon: "architecture",
+                description: "Five distinct villa collections crafted by the globally renowned architectural firm from Hong Kong."
+            },
+            {
+                title: "Resort-Style Golf Square",
+                icon: "chalet",
+                description: "Clubhouse featuring sports courts, spa, theatre, fine dining, banquet facilities, and luxury guest suites."
+            },
+            {
+                title: "Disney-Inspired Fun Square",
+                icon: "attractions",
+                description: "A 59,000 sq.ft. family entertainment park with rides, skating rink, amphitheatre, and themed attractions."
+            },
+            {
+                title: "Zen Square Wellness Sanctuary",
+                icon: "self_improvement",
+                description: "A dedicated meditation and wellness retreat designed for mindfulness, relaxation, and balance."
+            },
+            {
+                title: "Waterfront Luxury Villas",
+                icon: "pool",
+                description: "Standalone villas built around water bodies with optional private pools and imported finishes."
+            },
+            {
+                title: "Concierge Lifestyle Services",
+                icon: "room_service",
+                description: "Housekeeping, club-car transfers, laundry, and hospitality services inspired by five-star resorts."
+            }
+        ];
+
+        function setActiveHighlightTab(index) {
+            // 1. Update tab styling
+            const tabs = document.querySelectorAll('.highlight-tab');
+            tabs.forEach((tab, idx) => {
+                if (idx === index) {
+                    tab.className = "highlight-tab shrink-0 px-5 py-3 rounded-full font-label-caps text-[10px] tracking-wider transition-all duration-300 bg-[#755a24] text-white shadow-sm";
+                } else {
+                    tab.className = "highlight-tab shrink-0 px-5 py-3 rounded-full font-label-caps text-[10px] tracking-wider transition-all duration-300 bg-surface-container-high text-on-surface-variant hover:text-[#755a24] border border-outline-variant/30";
+                }
+            });
+
+            // 2. Scroll the active tab button into view center-aligned if it overflows
+            const activeTab = tabs[index];
+            if (activeTab && activeTab.parentElement) {
+                const parent = activeTab.parentElement;
+                const parentRect = parent.getBoundingClientRect();
+                const tabRect = activeTab.getBoundingClientRect();
+                const offset = tabRect.left - parentRect.left - (parentRect.width / 2) + (tabRect.width / 2);
+                parent.scrollBy({ left: offset, behavior: 'smooth' });
+            }
+
+            // 3. Render active card content with a transition
+            const mobileContainer = document.getElementById('active-highlight-card-mobile');
+            if (!mobileContainer) return;
+
+            const data = highlightCardsData[index];
+
+            // Add fade-out/translate transition classes
+            mobileContainer.classList.add('opacity-0', 'translate-y-2');
+            mobileContainer.style.transition = 'all 0.3s ease';
+
+            setTimeout(() => {
+                mobileContainer.innerHTML = `
+                    <div class="h-full p-8 bg-white border border-[#755a24]/30 rounded-2xl relative overflow-hidden shadow-[0_12px_30px_rgba(117,90,36,0.06)] flex flex-col justify-between">
+                        <div class="absolute top-0 left-0 w-full h-[3px] bg-[#755a24]"></div>
+                        <div>
+                            <div class="w-14 h-14 rounded-full bg-secondary-container/10 border border-secondary/15 flex items-center justify-center mb-6">
+                                <span class="material-symbols-outlined text-2xl text-secondary">${data.icon}</span>
+                            </div>
+                            <h3 class="font-headline-md text-xl font-bold text-secondary mb-3">${data.title}</h3>
+                            <p class="font-body-md text-sm text-on-surface-variant leading-relaxed">${data.description}</p>
+                        </div>
+                    </div>
+                `;
+                // Remove fade-out to trigger fade-in transition
+                mobileContainer.classList.remove('opacity-0', 'translate-y-2');
+            }, 150);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize the first tab on load
+            setActiveHighlightTab(0);
+
+            // Initialize mobile gallery on load
+            renderMobileGallery();
+
+            const lightbox = document.getElementById('gallery-lightbox');
+            if (lightbox) {
+                lightbox.addEventListener('touchstart', (e) => {
+                    touchstartX = e.changedTouches[0].screenX;
+                    touchstartY = e.changedTouches[0].screenY;
+                }, { passive: true });
+
+                lightbox.addEventListener('touchend', (e) => {
+                    touchendX = e.changedTouches[0].screenX;
+                    touchendY = e.changedTouches[0].screenY;
+                    handleSwipeGesture();
+                }, { passive: true });
+            }
+
+            // Form Submission Handler
+            const form = document.getElementById('enquiry-form');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalBtnContent = submitBtn ? submitBtn.innerHTML : '';
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = `
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" style="width: 20px; height: 20px; display: inline-block;">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            SUBMITTING...
+                        `;
+                    }
+
+                    const formData = new FormData(form);
+
+                    // Convert FormData to URLSearchParams for Apps Script Web App compatibility
+                    const searchParams = new URLSearchParams();
+                    for (const pair of formData) {
+                        searchParams.append(pair[0], pair[1]);
+                    }
+
+                    fetch('https://script.google.com/macros/s/AKfycbyUfFzPDL-Cq-JEVDtZluhNy20qyuTvfwtS7iONmAhIHbrbUz4QEzLPpZsBOuRR4gQ-4g/exec', {
+                        method: 'POST',
+                        body: searchParams,
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    })
+                        .then(() => {
+                            showSuccessModal(form, submitBtn, originalBtnContent);
+                        })
+                        .catch(err => {
+                            console.error('Submission error:', err);
+                            showSuccessModal(form, submitBtn, originalBtnContent);
+                        });
+                });
+            }
+
+            function showSuccessModal(form, submitBtn, originalBtnContent) {
+                // Restore button
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnContent;
+                }
+
+                // Reset form fields
+                form.reset();
+
+                // Open Modal
+                const modal = document.getElementById('enquiry-success-modal');
+                if (modal) {
+                    modal.classList.remove('hidden');
+                    modal.offsetHeight; // force reflow
+                    modal.classList.remove('opacity-0');
+                }
+            }
+        });
+
+        // Global Modal Close Function
+        function closeEnquiryModal() {
+            const modal = document.getElementById('enquiry-success-modal');
+            if (!modal) return;
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+    </script>
+
+    <!-- Enquiry Success Modal -->
+    <div id="enquiry-success-modal"
+        class="fixed inset-0 z-[110] bg-black/75 backdrop-blur-sm hidden opacity-0 transition-all duration-300 flex items-center justify-center p-4 select-none">
+        <div
+            class="bg-[#121312] border border-[#755a24]/30 p-8 rounded-2xl max-w-md w-full shadow-[0_20px_50px_rgba(0,0,0,0.8)] text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-[4px] bg-[#755a24]"></div>
+
+            <div
+                class="w-16 h-16 rounded-full bg-[#34533b]/10 border border-[#34533b]/20 flex items-center justify-center mx-auto mb-6">
+                <span class="material-symbols-outlined text-4xl text-[#accfb1]">done</span>
+            </div>
+
+            <h3 class="font-headline-md text-2xl text-white mb-3 font-serif">Request Received</h3>
+            <p class="font-body-md text-white/60 leading-relaxed mb-8 text-sm">
+                Thank you for your interest in Arvind Uplands One. Our luxury concierge team has received your details
+                and will contact you shortly to schedule your private experience.
+            </p>
+
+            <button onclick="closeEnquiryModal()"
+                class="w-full bg-[#755a24] text-white py-4 rounded-full font-label-caps text-label-caps tracking-widest hover:shadow-lg transition-all duration-300">
+                SUBMIT ANOTHER REQUEST
+            </button>
+        </div>
+    </div>
+</body>
+
+</html>
