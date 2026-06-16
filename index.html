@@ -343,19 +343,22 @@
     <!-- Section 1: Hero -->
     <section class="relative h-screen flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <video autoplay loop muted playsinline class="w-full h-full object-cover">
-                <source src="./video.mp4" type="video/mp4" />
+            <video autoplay loop muted playsinline preload="auto" class="w-full h-full object-cover">
+                <source src="./Arvinduplandvideo.mp4" type="video/mp4" />
             </video>
             <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60"></div>
         </div>
-        <div class="relative z-10 text-center px-margin-mobile max-w-4xl text-white reveal pt-20 pb-16 md:py-0">
+        <div
+            class="relative z-10 text-center px-margin-mobile max-w-4xl text-white reveal pt-16 pb-24 md:py-0 flex flex-col items-center">
             <h1
                 class="font-display-lg-mobile md:font-display-lg text-3xl sm:text-display-lg-mobile md:text-display-lg mb-6 sm:mb-8 font-bold leading-tight">
                 Live The Uplands Life</h1>
-            <p class="font-headline-md text-lg sm:text-headline-md mb-4 sm:mb-6 opacity-90">Luxury Villas Amidst Nature,
+            <p class="font-headline-md text-lg sm:text-headline-md mb-6 sm:mb-8 opacity-90 px-4">Luxury Villas Amidst
+                Nature,
                 Golf &amp;
                 Wellness</p>
-            <p class="font-body-lg text-sm sm:text-body-lg mb-12 sm:mb-16 max-w-2xl mx-auto opacity-80">Experience an
+            <p class="font-body-lg text-sm sm:text-body-lg mb-12 sm:mb-16 max-w-2xl mx-auto opacity-80 px-4">Experience
+                an
                 extraordinary
                 lifestyle crafted for the global elite, where architectural precision meets the serene whispers of a
                 lush forest canopy.</p>
@@ -368,10 +371,10 @@
 
         <!-- Fact Sheet (Bottom Left) -->
         <div
-            class="absolute bottom-0 left-0 w-full lg:w-auto bg-white z-20 py-4 lg:py-6 px-6 lg:px-12 flex flex-row lg:flex-row justify-around lg:justify-start items-center shadow-2xl">
+            class="absolute bottom-0 left-0 w-full lg:w-auto bg-white z-20 py-4 lg:py-6 px-6 lg:px-12 flex flex-row justify-around lg:justify-start items-center shadow-2xl">
             <!-- Item 1 -->
             <div
-                class="flex flex-col lg:flex-row lg:items-center py-1 lg:py-0 pr-2 lg:pr-10 lg:border-r-2 border-[#d97736] lg:h-8">
+                class="flex flex-col items-center lg:flex-row lg:items-center py-1 lg:py-0 pr-4 lg:pr-10 border-r border-black/10 lg:border-r-2 border-[#d97736] lg:h-8 flex-1 lg:flex-none">
                 <span class="font-serif text-[#34533b] font-bold text-sm lg:text-2xl lg:mr-3 leading-none">Arvind
                     Uplands</span>
                 <span
@@ -380,17 +383,19 @@
             </div>
             <!-- Item 2 -->
             <div
-                class="flex flex-col lg:flex-row lg:items-center py-1 lg:py-0 px-2 lg:px-10 lg:border-r-2 border-[#d97736] lg:h-8 border-l lg:border-l-0 border-black/10">
+                class="hidden lg:flex flex-col lg:flex-row lg:items-center py-1 lg:py-0 px-10 lg:border-r-2 border-[#d97736] lg:h-8">
                 <span class="text-[9px] lg:text-sm text-on-surface-variant lg:mr-2 leading-none">Status:</span>
                 <span
                     class="text-[10px] lg:text-sm text-[#34533b] font-semibold leading-none mt-1 lg:mt-0">Ongoing</span>
             </div>
             <!-- Item 3 -->
             <div
-                class="flex flex-col lg:flex-row lg:items-center py-1 lg:py-0 pl-2 lg:pl-10 border-l lg:border-l-0 border-black/10">
-                <span class="text-[9px] lg:text-sm text-on-surface-variant lg:mr-2 leading-none">Starting from -</span>
+                class="flex flex-col items-center lg:flex-row lg:items-center py-1 lg:py-0 pl-4 lg:pl-10 flex-1 lg:flex-none">
+                <span class="text-[9px] lg:text-sm text-on-surface-variant lg:mr-2 leading-none mb-1.5 lg:mb-0">Starting
+                    from -</span>
                 <span
-                    class="text-[10px] lg:text-sm text-[#34533b] font-semibold leading-none mt-1 lg:mt-0">4.45Cr</span>
+                    class="text-xs lg:text-sm text-white bg-[#34533b] px-3 py-1.5 rounded-full font-bold leading-none mt-1 lg:mt-0 shadow-sm whitespace-nowrap">4.45
+                    Cr</span>
             </div>
         </div>
     </section>
@@ -423,7 +428,8 @@
                                 class="text-primary font-sans font-medium text-3xl md:text-4xl flex items-baseline flex-wrap gap-x-1 mt-auto">
                                 640
                                 <span
-                                    class="text-[11px] sm:text-[13px] font-sans font-normal text-on-surface-variant whitespace-nowrap">Sq. Yds.</span>
+                                    class="text-[11px] sm:text-[13px] font-sans font-normal text-on-surface-variant whitespace-nowrap">Sq.
+                                    Yds.</span>
                             </div>
                         </div>
                         <div class="flex flex-col h-full">
@@ -434,7 +440,8 @@
                                 class="text-primary font-sans font-medium text-3xl md:text-4xl flex items-baseline flex-wrap gap-x-1 mt-auto">
                                 448
                                 <span
-                                    class="text-[11px] sm:text-[13px] font-sans font-normal text-on-surface-variant whitespace-nowrap">Sq. Yds.</span>
+                                    class="text-[11px] sm:text-[13px] font-sans font-normal text-on-surface-variant whitespace-nowrap">Sq.
+                                    Yds.</span>
                             </div>
                         </div>
                         <div class="flex flex-col h-full">
@@ -444,7 +451,8 @@
                                 class="text-primary font-sans font-medium text-3xl md:text-4xl flex items-baseline flex-wrap gap-x-1 mt-auto">
                                 223
                                 <span
-                                    class="text-[11px] sm:text-[13px] font-sans font-normal text-on-surface-variant whitespace-nowrap">Sq. Yds.</span>
+                                    class="text-[11px] sm:text-[13px] font-sans font-normal text-on-surface-variant whitespace-nowrap">Sq.
+                                    Yds.</span>
                             </div>
                         </div>
                     </div>
